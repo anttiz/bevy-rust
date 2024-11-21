@@ -55,7 +55,7 @@ pub fn spawn_player(
         UVec2::new(SPRITE_TILE_WIDTH as u32, SPRITE_TILE_HEIGHT as u32),
         SPRITESHEET_COLS,
         SPRITESHEET_ROWS,
-        Some(UVec2::new(12, 0)),
+        Some(UVec2::new(10, 0)),
         None,
     );
     let texture_atlas_layout = texture_atlas_layouts.add(layout);

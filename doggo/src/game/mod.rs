@@ -16,7 +16,7 @@ pub fn setup(
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     commands.spawn(Camera2dBundle::default());
-    spawn_player(&mut commands, &mut meshes, &mut materials);
+    // spawn_player(&mut commands, &mut meshes, &mut materials);
     spawn_player_sprite(&mut commands, asset_server, texture_atlas_layouts);
     spawn_world(commands);
 }
