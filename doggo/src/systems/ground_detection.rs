@@ -33,6 +33,9 @@ pub fn ground_detection(
             let player_bottom_y = transform.translation.y - 15.0; // Adjust based on player size
             let ground_top_y = ground_transform.translation.y + 0.5; // Adjust based on ground collider size
 
+            // println!("PlayerSprite Bottom Y: {}", player_bottom_y);
+            //println!("Ground Top Y: {}", ground_top_y);
+
             if player_bottom_y <= ground_top_y {
                 player_sprite.on_ground = true; // PlayerSprite is on the ground
                 break; // No need to check further

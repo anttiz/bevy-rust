@@ -11,7 +11,14 @@ pub fn movement(
     input: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
     mut query: Query<(&mut KinematicCharacterController, &mut Player, &Transform)>,
-    mut sprite_query: Query<(&mut KinematicCharacterController, &mut PlayerSprite, &Transform), Without<Player>>,
+    mut sprite_query: Query<
+        (
+            &mut KinematicCharacterController,
+            &mut PlayerSprite,
+            &Transform,
+        ),
+        Without<Player>,
+    >,
 ) {
     // Handle Player movement
     for (mut player_controller, mut player, transform) in query.iter_mut() {
@@ -38,14 +45,15 @@ pub fn movement(
 
         translation.y += player.vertical_velocity * time.delta_seconds();
 
-        // Boundary checks
-        let new_position = player_controller.translation.unwrap_or_default() + translation;
-
-        // Prevent player from moving left of the left boundary
+        // Boundary checks for PlayerSprite
+        let new_position =
+            player_controller.translation.unwrap_or_default() + transform.translation.xy();
+        // println!("New Position: {}, Left Boundary: {}", new_position.x, LEFT_BOUNDARY);
+        // prevent player from moving left of the left boundary
         if new_position.x < LEFT_BOUNDARY {
             translation.x = LEFT_BOUNDARY - new_position.x;
         }
-        // Prevent player from moving right of the right boundary
+        // prevent player from moving right of the right boundary
         if new_position.x > RIGHT_BOUNDARY {
             translation.x = RIGHT_BOUNDARY - new_position.x;
         }
@@ -77,15 +85,15 @@ pub fn movement(
         }
 
         translation.y += player_sprite.vertical_velocity * time.delta_seconds();
-
         // Boundary checks for PlayerSprite
-        let new_position = sprite_controller.translation.unwrap_or_default() + translation;
-
-        // Prevent PlayerSprite from moving left of the left boundary
+        let new_position =
+            sprite_controller.translation.unwrap_or_default() + transform.translation.xy();
+        // println!("New Position: {}, Left Boundary: {}", new_position.x, LEFT_BOUNDARY);
+        // prevent player from moving left of the left boundary
         if new_position.x < LEFT_BOUNDARY {
             translation.x = LEFT_BOUNDARY - new_position.x;
         }
-        // Prevent PlayerSprite from moving right of the right boundary
+        // prevent player from moving right of the right boundary
         if new_position.x > RIGHT_BOUNDARY {
             translation.x = RIGHT_BOUNDARY - new_position.x;
         }

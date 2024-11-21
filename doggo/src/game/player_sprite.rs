@@ -1,6 +1,6 @@
 use bevy::prelude::*;
-use std::time::Duration;
 use bevy_rapier2d::prelude::*;
+use std::time::Duration;
 
 use super::constants::{SPRITESHEET_COLS, SPRITESHEET_ROWS, SPRITE_TILE_HEIGHT, SPRITE_TILE_WIDTH};
 
@@ -55,7 +55,7 @@ pub fn spawn_player(
         UVec2::new(SPRITE_TILE_WIDTH as u32, SPRITE_TILE_HEIGHT as u32),
         SPRITESHEET_COLS,
         SPRITESHEET_ROWS,
-        None,
+        Some(UVec2::new(12, 0)),
         None,
     );
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
@@ -64,22 +64,23 @@ pub fn spawn_player(
     let animation_config_standing = AnimationConfig::new(1, 3, 10);
 
     // create the first (left-hand) sprite
-    commands.spawn((
-        SpriteBundle {
-            transform: Transform::from_scale(Vec3::splat(1.0))
-                .with_translation(Vec3::new(-50.0, 0.0, 1.0)),
-            texture: texture.clone(),
-            ..Default::default()
-        },
-        TextureAtlas {
-            layout: texture_atlas_layout.clone(),
-            index: animation_config_standing.first_sprite_index,
-        },
-        LeftSprite,
-        animation_config_standing,
-        PlayerSprite::default(),
-        Collider::ball(0.5),
+    commands
+        .spawn((
+            SpriteBundle {
+                transform: Transform::from_scale(Vec3::splat(1.0))
+                    .with_translation(Vec3::new(-250.0, 0.0, 1.0)),
+                texture: texture.clone(),
+                ..Default::default()
+            },
+            TextureAtlas {
+                layout: texture_atlas_layout.clone(),
+                index: animation_config_standing.first_sprite_index,
+            },
+            LeftSprite,
+            animation_config_standing,
         ))
         .insert(RigidBody::Dynamic)
-        .insert(KinematicCharacterController::default());
+        .insert(Collider::cuboid(20.0, SPRITE_TILE_HEIGHT/2.0))
+        .insert(KinematicCharacterController::default())
+        .insert(PlayerSprite::default());
 }
