@@ -2,9 +2,12 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 use crate::game::{
-    constants::{GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_VELOCITY_X, RIGHT_BOUNDARY},
+    constants::{
+        GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_VELOCITY_X, RIGHT_BOUNDARY,
+        SPRITESHEET_COLS, SPRITESHEET_ROWS, SPRITE_TILE_HEIGHT, SPRITE_TILE_WIDTH,
+    },
     player::Player,
-    player_sprite::PlayerSprite,
+    player_sprite::{self, AnimationConfig, PlayerSprite},
 };
 
 pub fn movement(
@@ -20,6 +23,18 @@ pub fn movement(
         Without<Player>,
     >,
 ) {
+    let animation_config_walking_left: AnimationConfig = AnimationConfig::new(
+        1 + SPRITESHEET_COLS as usize,
+        3 + SPRITESHEET_COLS as usize,
+        10,
+    );
+    let animation_config_walking_right: AnimationConfig = AnimationConfig::new(
+        1 + SPRITESHEET_COLS as usize * 2,
+        3 + SPRITESHEET_COLS as usize * 2,
+        10,
+    );
+    let animation_config_standing = AnimationConfig::new(1, 3, 10);
+
     // Handle Player movement
     for (mut player_controller, mut player, transform) in query.iter_mut() {
         let mut translation = Vec2::new(0.0, 0.0);
@@ -73,10 +88,21 @@ pub fn movement(
 
         if input.pressed(KeyCode::ArrowRight) {
             translation.x += time.delta_seconds() * PLAYER_VELOCITY_X;
+
+            // Update the animation index for walking right
+            player_sprite.current_animation_index =
+                animation_config_walking_right.first_sprite_index;
+        } else if player_sprite.on_ground {
+            // Reset to standing animation if on ground and no movement
+            player_sprite.current_animation_index = animation_config_standing.first_sprite_index;
         }
 
         if input.pressed(KeyCode::ArrowLeft) {
             translation.x += time.delta_seconds() * PLAYER_VELOCITY_X * -1.0;
+
+            // Update the animation index for walking left
+            player_sprite.current_animation_index =
+                animation_config_walking_left.first_sprite_index;
         }
 
         if input.just_pressed(KeyCode::Space) && player_sprite.on_ground {
@@ -100,4 +126,8 @@ pub fn movement(
 
         sprite_controller.translation = Some(translation);
     }
+}
+
+pub fn move_sprites() {
+  player_sprite::move_sprites();
 }
