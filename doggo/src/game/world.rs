@@ -1,9 +1,14 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-
 use super::constants::*;
+use super::level_config::LEVELS;
 
 pub fn spawn_world(mut commands: Commands) {
+    // Print level names
+    for level in LEVELS {
+        println!("Level Name: {}", level.name);
+    }
+
     // Sky
     commands.spawn(SpriteBundle {
         sprite: Sprite {

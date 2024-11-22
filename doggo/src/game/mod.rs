@@ -2,6 +2,7 @@ pub mod constants;
 pub mod player;
 pub mod player_sprite;
 pub mod world;
+pub mod level_config;
 
 use bevy::prelude::*;
 
