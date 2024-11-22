@@ -4,7 +4,7 @@ use bevy_rapier2d::prelude::*;
 use crate::game::{
     constants::{
         GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_VELOCITY_X, RIGHT_BOUNDARY,
-        SPRITESHEET_COLS, SPRITESHEET_ROWS, SPRITE_TILE_HEIGHT, SPRITE_TILE_WIDTH,
+        SPRITESHEET_COLS,
     },
     player::Player,
     player_sprite::{self, AnimationConfig, PlayerSprite},
@@ -96,7 +96,6 @@ pub fn movement(
             // Reset to standing animation if on ground and no movement
             player_sprite.current_animation_index = animation_config_standing.first_sprite_index;
         }
-
         if input.pressed(KeyCode::ArrowLeft) {
             translation.x += time.delta_seconds() * PLAYER_VELOCITY_X * -1.0;
 
@@ -128,6 +127,27 @@ pub fn movement(
     }
 }
 
-pub fn move_sprites() {
-  player_sprite::move_sprites();
+// This system loops through all the sprites in the `TextureAtlas`, from  `first_sprite_index` to
+// `last_sprite_index` (both defined in `AnimationConfig`).
+pub fn execute_animations(
+    time: Res<Time>,
+    mut query: Query<(&mut AnimationConfig, &mut TextureAtlas)>,
+) {
+    for (mut config, mut atlas) in &mut query {
+        // we track how long the current sprite has been displayed for
+        config.frame_timer.tick(time.delta());
+
+        // If it has been displayed for the user-defined amount of time (fps)...
+        if config.frame_timer.just_finished() {
+            if atlas.index == config.last_sprite_index {
+                // ...and it IS the last frame, then we move back to the first frame and stop.
+                atlas.index = config.first_sprite_index;
+            } else {
+                // ...and it is NOT the last frame, then we move to the next frame...
+                atlas.index += 1;
+                // ...and reset the frame timer to start counting all over again
+                config.frame_timer = AnimationConfig::timer_from_fps(config.fps);
+            }
+        }
+    }
 }

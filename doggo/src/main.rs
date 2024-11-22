@@ -5,11 +5,14 @@ mod game;
 mod systems;
 
 use game::constants::*;
+use game::player_sprite::trigger_animation;
+use bevy::input::common_conditions::input_just_pressed;
 use game::setup;
+use systems::movement::execute_animations;
 use systems::movement::movement;
-use systems::movement::move_sprites;
 use systems::ground_detection::ground_detection;
-
+use crate::game::player_sprite::WalkingLeftSprite;
+use crate::game::player_sprite::WalkingRightSprite;
 fn main() {
     App::new()
         .add_plugins(
@@ -32,11 +35,15 @@ fn main() {
         .add_systems(Startup, setup)
         .add_systems(Update, movement)
         .add_systems(Update, ground_detection)
-        /*
+        .add_systems(Update, execute_animations)
         .add_systems(
             Update,
-            move_sprites,
-        )    */
-
+            (
+                // press the right arrow key to animate the right sprite
+                trigger_animation::<WalkingRightSprite>.run_if(input_just_pressed(KeyCode::ArrowRight)),
+                // press the left arrow key to animate the left sprite
+                trigger_animation::<WalkingLeftSprite>.run_if(input_just_pressed(KeyCode::ArrowLeft)),
+            ),
+        )
         .run();
 }
