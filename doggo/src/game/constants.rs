@@ -22,8 +22,8 @@ pub const GRASS_TOP_Y: f32 =
 
 // Player constants
 pub const PLAYER_START_X: f32 = -200.0; // Starting X position of the player
-pub const PLAYER_START_Y: f32 = 0.0;     // Starting Y position of the player
-pub const PLAYER_WIDTH: f32 = 30.0;       // Width of the player
+pub const PLAYER_START_Y: f32 = 0.0; // Starting Y position of the player
+pub const PLAYER_WIDTH: f32 = 30.0; // Width of the player
 
 // Colors
 // pink
@@ -42,3 +42,12 @@ pub const SPRITE_TILE_WIDTH: f32 = 64.0;
 pub const SPRITE_TILE_HEIGHT: f32 = 64.0;
 pub const SPRITESHEET_COLS: u32 = 12;
 pub const SPRITESHEET_ROWS: u32 = 8;
+
+// animation constants
+pub const ANIMATION_FPS: u8 = 10;
+pub const ANIMATION_FRAMES: usize = 3;
+pub const STANDING_SPRITE_FIRST_INDEX: usize = 0;
+pub const WALKING_LEFT_SPRITE_FIRST_INDEX: usize =
+    STANDING_SPRITE_FIRST_INDEX + SPRITESHEET_COLS as usize;
+pub const WALKING_RIGHT_SPRITE_FIRST_INDEX: usize =
+    STANDING_SPRITE_FIRST_INDEX + SPRITESHEET_COLS as usize * 2;

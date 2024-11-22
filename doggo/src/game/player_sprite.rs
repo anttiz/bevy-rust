@@ -1,10 +1,13 @@
-use bevy::input::common_conditions::input_just_pressed;
 use bevy::input::ButtonInput;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use std::time::Duration;
 
-use super::constants::{SPRITESHEET_COLS, SPRITESHEET_ROWS, SPRITE_TILE_HEIGHT, SPRITE_TILE_WIDTH};
+use super::constants::{
+    ANIMATION_FPS, ANIMATION_FRAMES, SPRITESHEET_COLS, SPRITESHEET_ROWS, SPRITE_TILE_HEIGHT,
+    SPRITE_TILE_WIDTH, STANDING_SPRITE_FIRST_INDEX, WALKING_LEFT_SPRITE_FIRST_INDEX,
+    WALKING_RIGHT_SPRITE_FIRST_INDEX,
+};
 
 #[derive(Component)]
 pub struct PlayerSprite {
@@ -49,16 +52,6 @@ impl AnimationConfig {
 #[derive(Component)]
 struct StandingSprite;
 
-#[derive(Component)]
-pub struct WalkingLeftSprite;
-
-#[derive(Component)]
-pub struct WalkingRightSprite;
-
-const STANDING_SPRITE_FIRST_INDEX: usize = 1;
-const WALKING_LEFT_SPRITE_FIRST_INDEX: usize = 1 + SPRITESHEET_COLS as usize;
-const WALKING_RIGHT_SPRITE_FIRST_INDEX: usize = 1 + SPRITESHEET_COLS as usize * 2;
-
 pub fn spawn_player(
     commands: &mut Commands,
     asset_server: Res<AssetServer>,
@@ -74,16 +67,10 @@ pub fn spawn_player(
     );
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
-    let animation_config_standing = AnimationConfig::new(1, 3, 10);
-    let animation_config_walking_left: AnimationConfig = AnimationConfig::new(
-        1 + SPRITESHEET_COLS as usize,
-        3 + SPRITESHEET_COLS as usize,
-        10,
-    );
-    let animation_config_walking_right: AnimationConfig = AnimationConfig::new(
-        1 + SPRITESHEET_COLS as usize * 2,
-        3 + SPRITESHEET_COLS as usize * 2,
-        10,
+    let animation_config_standing = AnimationConfig::new(
+        STANDING_SPRITE_FIRST_INDEX,
+        STANDING_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1,
+        ANIMATION_FPS,
     );
 
     commands
@@ -126,14 +113,16 @@ pub fn trigger_animation(
 
 // create method that returns the current state of the animation
 fn get_current_state(atlas: &TextureAtlas) -> String {
-    if atlas.index >= 1 && atlas.index <= 3 {
+    if atlas.index >= STANDING_SPRITE_FIRST_INDEX
+        && atlas.index <= STANDING_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1
+    {
         return "standing".to_string();
-    } else if atlas.index >= 1 + SPRITESHEET_COLS as usize
-        && atlas.index <= 3 + SPRITESHEET_COLS as usize
+    } else if atlas.index >= WALKING_LEFT_SPRITE_FIRST_INDEX
+        && atlas.index <= WALKING_LEFT_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1
     {
         return "walking_left".to_string();
-    } else if atlas.index >= 1 + SPRITESHEET_COLS as usize * 2
-        && atlas.index <= 3 + SPRITESHEET_COLS as usize * 2
+    } else if atlas.index >= WALKING_RIGHT_SPRITE_FIRST_INDEX
+        && atlas.index <= WALKING_RIGHT_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1
     {
         return "walking_right".to_string();
     }
@@ -143,18 +132,18 @@ fn get_current_state(atlas: &TextureAtlas) -> String {
 // Generate get_last_sprite_index
 fn get_last_sprite_index(state: &str) -> usize {
     if state == "standing" {
-        return 3;
+        return STANDING_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1;
     } else if state == "walking_left" {
-        return 3 + SPRITESHEET_COLS as usize;
+        return WALKING_LEFT_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1;
     } else if state == "walking_right" {
-        return 3 + SPRITESHEET_COLS as usize * 2;
+        return WALKING_RIGHT_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1;
     }
-    return 3;
+    return STANDING_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1;
 }
 
 // Generate get_first_sprite_index
 fn get_first_sprite_index(state: &str) -> usize {
-    return get_last_sprite_index(state) - 2;
+    return get_last_sprite_index(state) + 1 - ANIMATION_FRAMES;
 }
 
 // This system loops through all the sprites in the `TextureAtlas`, from  `first_sprite_index` to
@@ -204,7 +193,6 @@ pub fn execute_animations(
             if next_state != "standing" {
                 config.frame_timer = AnimationConfig::timer_from_fps(config.fps);
             }
-            // println!("Atlas index: {}", atlas.index);
         }
     }
 }
