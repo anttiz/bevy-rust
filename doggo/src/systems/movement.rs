@@ -88,20 +88,10 @@ pub fn movement(
 
         if input.pressed(KeyCode::ArrowRight) {
             translation.x += time.delta_seconds() * PLAYER_VELOCITY_X;
-
-            // Update the animation index for walking right
-            player_sprite.current_animation_index =
-                animation_config_walking_right.first_sprite_index;
-        } else if player_sprite.on_ground {
-            // Reset to standing animation if on ground and no movement
-            player_sprite.current_animation_index = animation_config_standing.first_sprite_index;
         }
+
         if input.pressed(KeyCode::ArrowLeft) {
             translation.x += time.delta_seconds() * PLAYER_VELOCITY_X * -1.0;
-
-            // Update the animation index for walking left
-            player_sprite.current_animation_index =
-                animation_config_walking_left.first_sprite_index;
         }
 
         if input.just_pressed(KeyCode::Space) && player_sprite.on_ground {

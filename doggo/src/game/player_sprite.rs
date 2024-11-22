@@ -13,7 +13,6 @@ use super::constants::{
 pub struct PlayerSprite {
     pub vertical_velocity: f32,
     pub on_ground: bool,
-    pub current_animation_index: usize,
 }
 
 impl Default for PlayerSprite {
@@ -21,7 +20,6 @@ impl Default for PlayerSprite {
         PlayerSprite {
             vertical_velocity: 0.0,
             on_ground: true,
-            current_animation_index: 0,
         }
     }
 }
@@ -111,7 +109,6 @@ pub fn trigger_animation(
     }
 }
 
-// create method that returns the current state of the animation
 fn get_current_state(atlas: &TextureAtlas) -> String {
     if atlas.index >= STANDING_SPRITE_FIRST_INDEX
         && atlas.index <= STANDING_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1
@@ -126,70 +123,49 @@ fn get_current_state(atlas: &TextureAtlas) -> String {
     {
         return "walking_right".to_string();
     }
-    return "standing".to_string();
+    "standing".to_string()
 }
 
-// Generate get_last_sprite_index
 fn get_last_sprite_index(state: &str) -> usize {
-    if state == "standing" {
-        return STANDING_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1;
-    } else if state == "walking_left" {
-        return WALKING_LEFT_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1;
-    } else if state == "walking_right" {
-        return WALKING_RIGHT_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1;
+    match state {
+        "standing" => STANDING_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1,
+        "walking_left" => WALKING_LEFT_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1,
+        "walking_right" => WALKING_RIGHT_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1,
+        _ => STANDING_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1,
     }
-    return STANDING_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1;
 }
 
-// Generate get_first_sprite_index
 fn get_first_sprite_index(state: &str) -> usize {
-    return get_last_sprite_index(state) + 1 - ANIMATION_FRAMES;
+    get_last_sprite_index(state) + 1 - ANIMATION_FRAMES
 }
 
-// This system loops through all the sprites in the `TextureAtlas`, from  `first_sprite_index` to
-// `last_sprite_index` (both defined in `AnimationConfig`).
 pub fn execute_animations(
     time: Res<Time>,
     input: Res<ButtonInput<KeyCode>>,
     mut query: Query<(&mut AnimationConfig, &mut TextureAtlas)>,
 ) {
     for (mut config, mut atlas) in &mut query {
-        // we track how long the current sprite has been displayed for
         config.frame_timer.tick(time.delta());
-        // If it has been displayed for the user-defined amount of time (fps)...
         if config.frame_timer.just_finished() {
             let current_state = get_current_state(&atlas);
-            let mut next_state = current_state.clone();
-
-            // Check if the user is pressing the left or right arrow keys
-            if input.pressed(KeyCode::ArrowRight) {
-                // Set the animation configuration for walking right
-                next_state = "walking_right".to_string();
+            let next_state = if input.pressed(KeyCode::ArrowRight) {
+                "walking_right".to_string()
             } else if input.pressed(KeyCode::ArrowLeft) {
-                // Set the animation configuration for walking left
-                next_state = "walking_left".to_string();
+                "walking_left".to_string()
             } else {
-                next_state = "standing".to_string();
-            }
-            let config_changed = current_state != next_state;
+                "standing".to_string()
+            };
 
-            if config_changed {
-                /*
-                println!(
-                    "Config changed from {} to {}, atlas index: {}",
-                    current_state, next_state, atlas.index
-                );
-                */
+            if current_state != next_state {
                 atlas.index = get_first_sprite_index(&next_state);
             }
+
             if atlas.index == get_last_sprite_index(&next_state) {
-                // ...and it IS the last frame, then we move back to the first frame and stop.
                 atlas.index = get_first_sprite_index(&next_state);
             } else {
-                // ...and it is NOT the last frame, then we move to the next frame...
                 atlas.index += 1;
             }
-            // ...and reset the frame timer to start counting all over again
+
             if next_state != "standing" {
                 config.frame_timer = AnimationConfig::timer_from_fps(config.fps);
             }
