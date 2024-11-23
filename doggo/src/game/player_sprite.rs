@@ -4,9 +4,9 @@ use bevy_rapier2d::prelude::*;
 use std::time::Duration;
 
 use super::constants::{
-    ANIMATION_FPS, ANIMATION_FRAMES, SPRITESHEET_COLS, SPRITESHEET_ROWS, SPRITE_TILE_HEIGHT,
-    SPRITE_TILE_WIDTH, STANDING_SPRITE_FIRST_INDEX, WALKING_LEFT_SPRITE_FIRST_INDEX,
-    WALKING_RIGHT_SPRITE_FIRST_INDEX,
+    ANIMATION_FPS, ANIMATION_FRAMES, PLAYER_SCALE, PLAYER_START_X, PLAYER_START_Y,
+    SPRITESHEET_COLS, SPRITESHEET_ROWS, SPRITE_TILE_HEIGHT, SPRITE_TILE_WIDTH,
+    STANDING_SPRITE_FIRST_INDEX, WALKING_LEFT_SPRITE_FIRST_INDEX, WALKING_RIGHT_SPRITE_FIRST_INDEX,
 };
 
 #[derive(Component)]
@@ -74,8 +74,9 @@ pub fn spawn_player(
     commands
         .spawn((
             SpriteBundle {
-                transform: Transform::from_scale(Vec3::splat(1.0))
-                    .with_translation(Vec3::new(-250.0, 0.0, 1.0)),
+                transform: Transform::from_scale(Vec3::splat(PLAYER_SCALE))
+                    .with_translation(Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0)),
+
                 texture: texture.clone(),
                 ..Default::default()
             },
