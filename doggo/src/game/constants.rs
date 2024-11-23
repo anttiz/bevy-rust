@@ -21,7 +21,7 @@ pub const GRASS_TOP_Y: f32 =
     WINDOW_BOTTOM_Y + ((WINDOW_HEIGHT * GRASS_HEIGHT_PERCENT / 100.0) * 1.0) - 0.1 * WINDOW_HEIGHT;
 
 // Player constants
-pub const PLAYER_START_X: f32 = -500.0; // Starting X position of the player
+pub const PLAYER_START_X: f32 = LEFT_BOUNDARY + 1.0;
 pub const PLAYER_START_Y: f32 = 0.0; // Starting Y position of the player
 pub const PLAYER_WIDTH: f32 = 30.0; // Width of the player
 pub const PLAYER_SCALE: f32 = 2.0; // Scale of the player

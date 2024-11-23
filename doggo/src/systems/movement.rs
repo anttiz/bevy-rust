@@ -4,39 +4,26 @@ use bevy_rapier2d::prelude::*;
 use crate::game::{
     constants::{
         GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_VELOCITY_X, RIGHT_BOUNDARY,
-        SPRITESHEET_COLS,
     },
     player::Player,
-    player_sprite::{self, AnimationConfig, PlayerSprite},
+    player_sprite::{PlayerSprite, enter_next_level},
 };
 
 pub fn movement(
     input: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
-    mut query: Query<(&mut KinematicCharacterController, &mut Player, &Transform)>,
+    mut query: Query<(&mut KinematicCharacterController, &mut Player, &mut Transform)>,
     mut sprite_query: Query<
         (
             &mut KinematicCharacterController,
             &mut PlayerSprite,
-            &Transform,
+            &mut Transform,
         ),
         Without<Player>,
     >,
 ) {
-    let animation_config_walking_left: AnimationConfig = AnimationConfig::new(
-        1 + SPRITESHEET_COLS as usize,
-        3 + SPRITESHEET_COLS as usize,
-        10,
-    );
-    let animation_config_walking_right: AnimationConfig = AnimationConfig::new(
-        1 + SPRITESHEET_COLS as usize * 2,
-        3 + SPRITESHEET_COLS as usize * 2,
-        10,
-    );
-    let animation_config_standing = AnimationConfig::new(1, 3, 10);
-
     // Handle Player movement
-    for (mut player_controller, mut player, transform) in query.iter_mut() {
+    for (mut player_controller, mut player, mut transform) in query.iter_mut() {
         let mut translation = Vec2::new(0.0, 0.0);
 
         if !player.on_ground {
@@ -74,10 +61,13 @@ pub fn movement(
         }
 
         player_controller.translation = Some(translation);
+
+        // Reset rotation to prevent turning
+        transform.rotation = Quat::from_rotation_z(0.0);
     }
 
     // Handle PlayerSprite movement
-    for (mut sprite_controller, mut player_sprite, transform) in sprite_query.iter_mut() {
+    for (mut sprite_controller, mut player_sprite, mut transform) in sprite_query.iter_mut() {
         let mut translation = Vec2::new(0.0, 0.0);
 
         if !player_sprite.on_ground {
@@ -95,6 +85,7 @@ pub fn movement(
         }
 
         if input.just_pressed(KeyCode::Space) && player_sprite.on_ground {
+            println!("Jumping");
             player_sprite.vertical_velocity += JUMP_VELOCITY;
             player_sprite.on_ground = false;
         }
@@ -110,9 +101,14 @@ pub fn movement(
         }
         // prevent player from moving right of the right boundary
         if new_position.x > RIGHT_BOUNDARY {
-            translation.x = RIGHT_BOUNDARY - new_position.x;
+            // enter next level
+            enter_next_level(sprite_controller, transform);
+            return;
         }
 
         sprite_controller.translation = Some(translation);
+
+        // Reset rotation to prevent turning
+        transform.rotation = Quat::from_rotation_z(0.0);
     }
 }
