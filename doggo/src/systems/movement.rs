@@ -10,6 +10,7 @@ use crate::game::{
 };
 
 pub fn movement(
+    mut commands: Commands,
     input: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
     mut query: Query<(&mut KinematicCharacterController, &mut Player, &mut Transform)>,
@@ -102,7 +103,7 @@ pub fn movement(
         // prevent player from moving right of the right boundary
         if new_position.x > RIGHT_BOUNDARY {
             // enter next level
-            enter_next_level(sprite_controller, transform);
+            enter_next_level(commands, sprite_controller, transform);
             return;
         }
 

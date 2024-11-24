@@ -20,16 +20,34 @@ pub const LEVELS: &[LevelConfig] = &[
     LevelConfig {
         name: "Level 1",         // Use a string literal
         index: 0,
-        stone_count: 10,         // Amount of stones
-        stones_moving: true,     // Stones are moving
+        stone_count: 1,         // Amount of stones
+        stones_moving: false,     // Stones are moving
         stone_interval: 50.0,    // Stone interval in pixels
     },
-    // Add more levels as needed
-];
+    LevelConfig {
+      name: "Level 2",         // Use a string literal
+      index: 1,
+      stone_count: 2,         // Amount of stones
+      stones_moving: false,     // Stones are moving
+      stone_interval: 100.0,    // Stone interval in pixels
+  },
+
+  LevelConfig {
+    name: "Level 3",         // Use a string literal
+    index: 2,
+    stone_count: 3,         // Amount of stones
+    stones_moving: false,     // Stones are moving
+    stone_interval: 100.0,    // Stone interval in pixels
+},
+  ];
 
 // Example function to set the current level
 pub fn set_current_level(level_index: usize) {
     let mut current_level = CURRENT_LEVEL.lock().unwrap(); // Access CURRENT_LEVEL directly
+    if level_index >= LEVELS.len() {
+        println!("Level index out of bounds");
+        return;
+    }
     *current_level = level_index; // Set the current level
 }
 

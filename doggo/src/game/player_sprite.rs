@@ -1,14 +1,14 @@
+use super::level_config::{get_current_level, set_current_level, LEVELS};
 use bevy::input::ButtonInput;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use std::time::Duration;
-use super::level_config::{set_current_level, get_current_level};
+use super::world::spawn_world;
 
 use super::constants::{
     ANIMATION_FPS, ANIMATION_FRAMES, PLAYER_SCALE, PLAYER_START_X, PLAYER_START_Y,
     SPRITESHEET_COLS, SPRITESHEET_ROWS, SPRITE_TILE_HEIGHT, SPRITE_TILE_WIDTH,
     STANDING_SPRITE_FIRST_INDEX, WALKING_LEFT_SPRITE_FIRST_INDEX, WALKING_RIGHT_SPRITE_FIRST_INDEX,
-    LEFT_BOUNDARY,
 };
 
 #[derive(Component)]
@@ -91,7 +91,10 @@ pub fn spawn_player(
             animation_config_standing,
         ))
         .insert(RigidBody::Dynamic)
-        .insert(Collider::cuboid(SPRITE_TILE_WIDTH / 3.0, SPRITE_TILE_HEIGHT / 2.0))
+        .insert(Collider::cuboid(
+            SPRITE_TILE_WIDTH / 3.0,
+            SPRITE_TILE_HEIGHT / 2.0,
+        ))
         .insert(KinematicCharacterController::default())
         .insert(PlayerSprite::default());
 }
@@ -178,15 +181,21 @@ pub fn execute_animations(
 }
 
 pub fn enter_next_level(
-  mut sprite_controller: Mut<'_, KinematicCharacterController>,
-  mut transform: Mut<'_, Transform>
-) {
-  println!("Current Level: {}", get_current_level());
-  set_current_level(get_current_level() + 1);
-  // Set absolute position using Transform
-  transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
-  // Reset the movement delta
-  sprite_controller.translation = Some(Vec2::ZERO);
-  // how can we create a new world in the new level?
-
+    commands: Commands,
+    mut sprite_controller: Mut<'_, KinematicCharacterController>,
+    mut transform: Mut<'_, Transform>,
+) -> bool {
+    println!("Current Level: {}", get_current_level());
+    if get_current_level() + 1 >= LEVELS.len() {
+        // println!("No more levels");
+        panic!("No more levels");
+    }
+    set_current_level(get_current_level() + 1);
+    // Set absolute position using Transform
+    transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
+    // Reset the movement delta
+    sprite_controller.translation = Some(Vec2::ZERO);
+    // Spawn new world
+    spawn_world(commands);
+    return true;
 }
