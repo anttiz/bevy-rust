@@ -6,7 +6,7 @@ use crate::game::{
         GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_VELOCITY_X, RIGHT_BOUNDARY,
     },
     player::Player,
-    player_sprite::{PlayerSprite, enter_next_level},
+    player_sprite::{enter_next_level, PlayerSprite}, world::StoneEntities,
 };
 
 pub fn movement(
@@ -22,6 +22,7 @@ pub fn movement(
         ),
         Without<Player>,
     >,
+    stone_entities: ResMut<StoneEntities>,
 ) {
     // Handle Player movement
     for (mut player_controller, mut player, mut transform) in query.iter_mut() {
@@ -103,7 +104,7 @@ pub fn movement(
         // prevent player from moving right of the right boundary
         if new_position.x > RIGHT_BOUNDARY {
             // enter next level
-            enter_next_level(commands, sprite_controller, transform);
+            enter_next_level(commands, sprite_controller, transform, stone_entities);
             return;
         }
 

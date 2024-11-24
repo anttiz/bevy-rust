@@ -9,11 +9,13 @@ use game::player_sprite::trigger_animation;
 use game::player_sprite::execute_animations;
 use bevy::input::common_conditions::input_just_pressed;
 use game::setup;
+use game::world::StoneEntities;
 use systems::ground_detection::ground_detection;
 use systems::movement::movement;
 
 fn main() {
     App::new()
+        .insert_resource(StoneEntities(Vec::new()))
         .add_plugins(
             DefaultPlugins
                 .set(WindowPlugin {

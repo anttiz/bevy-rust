@@ -5,6 +5,7 @@ pub mod player_sprite;
 pub mod world;
 
 use bevy::prelude::*;
+use world::StoneEntities;
 
 use self::{player_sprite::spawn_player as spawn_player_sprite, world::spawn_world};
 
@@ -15,9 +16,10 @@ pub fn setup(
     materials: ResMut<Assets<ColorMaterial>>,
     asset_server: Res<AssetServer>,
     texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
-) {
-    commands.spawn(Camera2dBundle::default());
+    stone_entities: ResMut<StoneEntities>,
+  ) {
+      commands.spawn(Camera2dBundle::default());
     // spawn_player(&mut commands, &mut meshes, &mut materials);
     spawn_player_sprite(&mut commands, asset_server, texture_atlas_layouts);
-    spawn_world(commands);
+    spawn_world(commands, stone_entities);
 }
