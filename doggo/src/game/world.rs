@@ -1,6 +1,6 @@
 use super::constants::*;
 use super::level_config::LEVELS;
-use super::level_config::{get_current_level, set_current_level};
+use super::level_config::{get_current_level, set_current_level, LevelConfig};
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
@@ -11,25 +11,14 @@ pub fn spawn_world(mut commands: Commands) {
     }
     let current_level = get_current_level();
     let level_config = &LEVELS[current_level];
-    // Sky
-    commands.spawn(SpriteBundle {
-        sprite: Sprite {
-            color: COLOR_SKY,
-            ..Default::default()
-        },
-        transform: Transform {
-            translation: Vec3::new(0.0, WINDOW_HEIGHT * 0.5, 0.0),
-            scale: Vec3::new(
-                WINDOW_WIDTH,
-                WINDOW_HEIGHT * SKY_HEIGHT_PERCENT / 100.0 * 2.0,
-                1.0,
-            ),
-            ..Default::default()
-        },
-        ..Default::default()
-    });
+    spawn_sky(&mut commands);
+    spawn_stones(&mut commands, level_config);
+    spawn_grass(&mut commands);
+    spawn_floor(&mut commands);
+}
 
-    // Grass
+// New function to spawn grass
+fn spawn_grass(commands: &mut Commands) {
     commands.spawn(SpriteBundle {
         sprite: Sprite {
             color: COLOR_GRASS,
@@ -46,7 +35,27 @@ pub fn spawn_world(mut commands: Commands) {
         },
         ..Default::default()
     });
+}
 
+fn spawn_floor(commands: &mut Commands) {
+    commands
+        .spawn(SpriteBundle {
+            sprite: Sprite {
+                color: COLOR_FLOOR,
+                ..Default::default()
+            },
+            transform: Transform {
+                translation: Vec3::new(0.0, GRASS_TOP_Y + 70.0, 0.0),
+                scale: Vec3::new(WINDOW_WIDTH, FLOOR_THICKNESS, 1.0),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .insert(RigidBody::Fixed)
+        .insert(Collider::cuboid(0.5, 0.5));
+}
+
+fn spawn_stones(commands: &mut Commands, level_config: &LevelConfig) {
     // Calculate the starting position to center the stones
     let total_width = (level_config.stone_count as f32 - 1.0) * level_config.stone_interval;
     let start_x_pos = -total_width / 2.0;
@@ -69,20 +78,23 @@ pub fn spawn_world(mut commands: Commands) {
             .insert(RigidBody::Fixed)
             .insert(Collider::cuboid(0.5, 0.5));
     }
-    // Floor
-    commands
-        .spawn(SpriteBundle {
-            sprite: Sprite {
-                color: COLOR_FLOOR,
-                ..Default::default()
-            },
-            transform: Transform {
-                translation: Vec3::new(0.0, GRASS_TOP_Y + 70.0, 0.0),
-                scale: Vec3::new(WINDOW_WIDTH, FLOOR_THICKNESS, 1.0),
-                ..Default::default()
-            },
+}
+
+fn spawn_sky(commands: &mut Commands) {
+    commands.spawn(SpriteBundle {
+        sprite: Sprite {
+            color: COLOR_SKY,
             ..Default::default()
-        })
-        .insert(RigidBody::Fixed)
-        .insert(Collider::cuboid(0.5, 0.5));
+        },
+        transform: Transform {
+            translation: Vec3::new(0.0, WINDOW_HEIGHT * 0.5, 0.0),
+            scale: Vec3::new(
+                WINDOW_WIDTH,
+                WINDOW_HEIGHT * SKY_HEIGHT_PERCENT / 100.0 * 2.0,
+                1.0,
+            ),
+            ..Default::default()
+        },
+        ..Default::default()
+    });
 }
