@@ -3,17 +3,24 @@ use bevy_rapier2d::prelude::*;
 
 use crate::game::{
     constants::{
-        GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_VELOCITY_X, RIGHT_BOUNDARY,
+        COLLISION_THRESHOLD, GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_START_X,
+        PLAYER_START_Y, PLAYER_VELOCITY_X, RIGHT_BOUNDARY,
     },
+    level_config::set_current_level, // Import the function to set the current level
     player::Player,
-    player_sprite::{enter_next_level, PlayerSprite}, world::StoneEntities,
+    player_sprite::{enter_next_level, PlayerSprite},
+    world::StoneEntities,
 };
 
 pub fn movement(
     mut commands: Commands,
     input: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
-    mut query: Query<(&mut KinematicCharacterController, &mut Player, &mut Transform)>,
+    mut query: Query<(
+        &mut KinematicCharacterController,
+        &mut Player,
+        &mut Transform,
+    )>,
     mut sprite_query: Query<
         (
             &mut KinematicCharacterController,
@@ -113,4 +120,36 @@ pub fn movement(
         // Reset rotation to prevent turning
         transform.rotation = Quat::from_rotation_z(0.0);
     }
+}
+
+pub fn collision_detection(
+    mut commands: Commands,
+    mut player_query: Query<(Entity, &mut Transform), With<PlayerSprite>>,
+    stone_entities: Res<StoneEntities>,
+    stone_query: Query<&Transform>,
+) {
+    let (player_entity, mut player_transform) = player_query.single_mut();
+
+    for stone_entity in &stone_entities.0 {
+        if let Ok(stone_transform) = stone_query.get(*stone_entity) {
+            if player_transform
+                .translation
+                .distance(stone_transform.translation)
+                < COLLISION_THRESHOLD
+            {
+                println!("Collision detected!");
+                player_transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
+                return;
+            }
+        }
+    }
+}
+
+fn restart_level(commands: &mut Commands, player_entity: Entity, player_transform: &mut Transform) {
+    /*
+    commands
+        .entity(player_entity)
+          .insert(Transform::from_xyz(PLAYER_START_X, PLAYER_START_Y, 1.0));
+    */
+    player_transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
 }

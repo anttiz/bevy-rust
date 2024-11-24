@@ -3,7 +3,7 @@ use std::sync::Mutex;
 // Add this at the top of the file to import the lazy_static crate
 use lazy_static::lazy_static; // Import lazy_static
 
-const STARTING_LEVEL: usize = 2;
+const STARTING_LEVEL: usize = 0;
 // Define a global variable for the current level
 lazy_static! {
     pub static ref CURRENT_LEVEL: Mutex<usize> = Mutex::new(STARTING_LEVEL); // Initialize to level 0
