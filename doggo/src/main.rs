@@ -11,7 +11,8 @@ use bevy::input::common_conditions::input_just_pressed;
 use game::setup;
 use game::world::StoneEntities;
 use systems::ground_detection::ground_detection;
-use systems::movement::{collision_detection, movement};
+use systems::movement::movement;
+use systems::collision_detection::collision_detection;
 
 fn main() {
     App::new()
@@ -35,7 +36,7 @@ fn main() {
         ))
         .add_systems(Startup, setup)
         .add_systems(Update, movement)
-        // .add_systems(Update, collision_detection)
+        .add_systems(Update, collision_detection)
         .add_systems(Update, ground_detection)
         .add_systems(Update, execute_animations)
         .add_systems(

@@ -1,9 +1,9 @@
 use super::constants::*;
 use super::level_config::LEVELS;
 use super::level_config::{get_current_level, set_current_level, LevelConfig};
+use bevy::ecs::system::Resource;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-use bevy::ecs::system::Resource;
 
 #[derive(Resource)]
 pub struct StoneEntities(pub Vec<Entity>);
@@ -65,7 +65,11 @@ fn spawn_floor(commands: &mut Commands) {
         .insert(Collider::cuboid(0.5, 0.5));
 }
 
-fn spawn_stones(commands: &mut Commands, level_config: &LevelConfig, stone_entities: &mut ResMut<StoneEntities>) {
+fn spawn_stones(
+    commands: &mut Commands,
+    level_config: &LevelConfig,
+    stone_entities: &mut ResMut<StoneEntities>,
+) {
     // Calculate the starting position to center the stones
     let total_width = (level_config.stone_count as f32 - 1.0) * level_config.stone_interval;
     let start_x_pos = -total_width / 2.0;
@@ -80,13 +84,16 @@ fn spawn_stones(commands: &mut Commands, level_config: &LevelConfig, stone_entit
                 },
                 transform: Transform {
                     translation: Vec3::new(x_pos, GRASS_TOP_Y + 90.0, 0.0),
-                    scale: Vec3::new(40.0, 40.0, 1.0),
+                    scale: Vec3::new(STONE_WIDTH, STONE_HEIGHT, 1.0),
                     ..Default::default()
                 },
                 ..Default::default()
             })
             .insert(RigidBody::Fixed)
-            .insert(Collider::cuboid(0.5, 0.5))
+            .insert(Collider::cuboid(
+                STONE_CUBOID_WIDTH / 2.0,
+                STONE_CUBOID_HEIGHT / 2.0,
+            ))
             .id(); // Get the entity ID
 
         stone_entities.0.push(entity); // Store the entity ID

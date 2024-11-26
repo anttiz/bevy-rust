@@ -38,6 +38,11 @@ pub const COLOR_SKY: Color = Color::srgba(0.0, 0.0, 255.0, 255.0);
 // lime green
 pub const COLOR_GRASS: Color = Color::srgba(0.0, 255.0, 0.0, 255.0);
 
+pub const STONE_WIDTH: f32 = 40.0;
+pub const STONE_HEIGHT: f32 = 40.0;
+pub const STONE_CUBOID_WIDTH: f32 = 1.0;
+pub const STONE_CUBOID_HEIGHT: f32 = 1.0;
+
 // Spritesheet constants
 pub const SPRITE_TILE_WIDTH: f32 = 64.0;
 pub const SPRITE_TILE_HEIGHT: f32 = 64.0;

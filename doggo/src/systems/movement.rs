@@ -122,29 +122,6 @@ pub fn movement(
     }
 }
 
-pub fn collision_detection(
-    mut commands: Commands,
-    mut player_query: Query<(Entity, &mut Transform), With<PlayerSprite>>,
-    stone_entities: Res<StoneEntities>,
-    stone_query: Query<&Transform>,
-) {
-    let (player_entity, mut player_transform) = player_query.single_mut();
-
-    for stone_entity in &stone_entities.0 {
-        if let Ok(stone_transform) = stone_query.get(*stone_entity) {
-            if player_transform
-                .translation
-                .distance(stone_transform.translation)
-                < COLLISION_THRESHOLD
-            {
-                println!("Collision detected!");
-                player_transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
-                return;
-            }
-        }
-    }
-}
-
 fn restart_level(commands: &mut Commands, player_entity: Entity, player_transform: &mut Transform) {
     /*
     commands
