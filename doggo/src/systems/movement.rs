@@ -122,7 +122,7 @@ pub fn movement(
     }
 }
 
-fn restart_level(commands: &mut Commands, player_entity: Entity, player_transform: &mut Transform) {
+pub fn restart_level(player_transform: &mut Transform) {
     /*
     commands
         .entity(player_entity)

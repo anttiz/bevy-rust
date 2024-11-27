@@ -8,6 +8,17 @@ use bevy_rapier2d::prelude::*;
 #[derive(Resource)]
 pub struct StoneEntities(pub Vec<Entity>);
 
+#[derive(Component)]
+pub struct Stone {
+}
+
+impl Default for Stone {
+    fn default() -> Self {
+        Stone {
+        }
+    }
+}
+
 pub fn spawn_world(mut commands: Commands, mut stone_entities: ResMut<StoneEntities>) {
     // Despawn previous stones
     for entity in stone_entities.0.iter() {
@@ -94,6 +105,7 @@ fn spawn_stones(
                 STONE_CUBOID_WIDTH / 2.0,
                 STONE_CUBOID_HEIGHT / 2.0,
             ))
+            .insert(Stone::default())
             .id(); // Get the entity ID
 
         stone_entities.0.push(entity); // Store the entity ID
