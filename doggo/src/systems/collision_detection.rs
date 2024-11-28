@@ -1,4 +1,4 @@
-use crate::game::constants::{SPRITE_TILE_HEIGHT, SPRITE_TILE_WIDTH};
+use crate::game::constants::{SPRITE_TILE_HEIGHT, SPRITE_TILE_WIDTH, STONE_HEIGHT};
 use crate::game::{player_sprite::PlayerSprite, world::Stone};
 use crate::systems::movement::restart_level;
 use bevy::prelude::*;
@@ -17,12 +17,14 @@ pub fn collision_detection(
             let stone_x = stone_transform.translation.x;
             let stone_y = stone_transform.translation.y;
             // check if collider is stone
-            // println!("stone_x: {}, player_x: {}", stone_x, player_x);
-            // check also y direction
-            if player_x + SPRITE_TILE_WIDTH > stone_x
-                && player_x < stone_x + SPRITE_TILE_WIDTH
-                && player_y + SPRITE_TILE_HEIGHT > stone_y
-                && player_y < stone_y + SPRITE_TILE_HEIGHT
+            let stone_lower_y = stone_y + 44.0;
+            let stone_upper_y = stone_lower_y + STONE_HEIGHT;
+            let stone_right_x = stone_x + SPRITE_TILE_WIDTH;
+            let stone_left_x = stone_x;
+            if player_x + SPRITE_TILE_WIDTH > stone_left_x
+                && player_x < stone_right_x
+                && player_y > stone_lower_y
+                && player_y < stone_upper_y
             {
                 println!("Player collided with stone: {}, {}", player_x, stone_x);
                 restart_level(&mut transform);
