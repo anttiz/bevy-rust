@@ -9,9 +9,9 @@ pub const WINDOW_BOTTOM_Y: f32 = WINDOW_HEIGHT / -2.0;
 pub const SKY_HEIGHT_PERCENT: f32 = 80.0;
 pub const GRASS_HEIGHT_PERCENT: f32 = 100.0 - SKY_HEIGHT_PERCENT;
 pub const FLOOR_THICKNESS: f32 = 1.0;
-pub const PLAYER_VELOCITY_X: f32 = 500.0;
-pub const JUMP_VELOCITY: f32 =17000.0;
-pub const GRAVITY_REDUCTION_FACTOR: f32 = 0.2;
+pub const PLAYER_VELOCITY_X: f32 = 400.0;
+pub const JUMP_VELOCITY: f32 = 30000.0;
+pub const GRAVITY_REDUCTION_FACTOR: f32 = 0.1;
 pub const GRAVITY: f32 = -9.81;
 pub const GRAVITY_REDUCED: f32 = GRAVITY * GRAVITY_REDUCTION_FACTOR;
 pub const LEFT_BOUNDARY: f32 = -WINDOW_WIDTH / 2.0 + PLAYER_WIDTH;
@@ -38,8 +38,8 @@ pub const COLOR_SKY: Color = Color::srgba(0.0, 0.0, 255.0, 255.0);
 // lime green
 pub const COLOR_GRASS: Color = Color::srgba(0.0, 255.0, 0.0, 255.0);
 
-pub const STONE_WIDTH: f32 = 40.0;
-pub const STONE_HEIGHT: f32 = 40.0;
+pub const STONE_WIDTH: f32 = 30.0;
+pub const STONE_HEIGHT: f32 = 30.0;
 pub const STONE_CUBOID_WIDTH: f32 = 1.0;
 pub const STONE_CUBOID_HEIGHT: f32 = 1.0;
 
