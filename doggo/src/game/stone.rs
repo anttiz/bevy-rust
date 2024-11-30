@@ -5,6 +5,9 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 #[derive(Component)]
+pub struct DeadlyItem;
+
+#[derive(Component)]
 pub struct Stone {
     pub speed: f32,
     pub direction: Vec2,
@@ -48,9 +51,10 @@ pub fn spawn_stones(
                 STONE_CUBOID_WIDTH / 2.0,
                 STONE_CUBOID_HEIGHT / 2.0,
             ))
+            .insert(DeadlyItem)
             .insert(Stone {
                 speed: if level_config.stones_moving {
-                    50.0
+                    level_config.stone_speed
                 } else {
                     0.0
                 }, // Set speed based on stones_moving
@@ -63,5 +67,8 @@ pub fn spawn_stones(
             .id(); // Get the entity ID
 
         stone_entities.0.push(entity); // Store the entity ID
+
+        // Debugging output to confirm stone creation
+        println!("Spawned stone at x: {}", x_pos);
     }
 }

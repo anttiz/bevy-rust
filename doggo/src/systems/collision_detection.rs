@@ -1,5 +1,5 @@
 use crate::game::constants::{SPRITE_TILE_HEIGHT, SPRITE_TILE_WIDTH, STONE_HEIGHT};
-use crate::game::{player_sprite::PlayerSprite, world::Stone};
+use crate::game::{player_sprite::PlayerSprite, stone::Stone};
 use crate::systems::movement::restart_level;
 use bevy::prelude::*;
 

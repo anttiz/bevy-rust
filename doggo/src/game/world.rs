@@ -9,17 +9,6 @@ use crate::game::stone::spawn_stones;
 #[derive(Resource)]
 pub struct StoneEntities(pub Vec<Entity>);
 
-#[derive(Component)]
-pub struct Stone {
-}
-
-impl Default for Stone {
-    fn default() -> Self {
-        Stone {
-        }
-    }
-}
-
 pub fn spawn_world(mut commands: Commands, mut stone_entities: ResMut<StoneEntities>) {
     // Despawn previous stones
     for entity in stone_entities.0.iter() {

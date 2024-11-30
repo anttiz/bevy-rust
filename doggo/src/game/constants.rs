@@ -42,6 +42,7 @@ pub const STONE_WIDTH: f32 = 30.0;
 pub const STONE_HEIGHT: f32 = 30.0;
 pub const STONE_CUBOID_WIDTH: f32 = 1.0;
 pub const STONE_CUBOID_HEIGHT: f32 = 1.0;
+pub const STONE_SPEED: f32 = 100.0;
 
 // Spritesheet constants
 pub const SPRITE_TILE_WIDTH: f32 = 64.0;

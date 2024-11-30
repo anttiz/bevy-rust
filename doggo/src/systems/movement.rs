@@ -4,13 +4,13 @@ use bevy_rapier2d::prelude::*;
 use crate::game::{
     constants::{
         COLLISION_THRESHOLD, GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_START_X,
-        PLAYER_START_Y, PLAYER_VELOCITY_X, RIGHT_BOUNDARY,
+        PLAYER_START_Y, PLAYER_VELOCITY_X, RIGHT_BOUNDARY, STONE_WIDTH,
     },
     level_config::set_current_level, // Import the function to set the current level
     player::Player,
     player_sprite::{enter_next_level, PlayerSprite},
-    world::StoneEntities,
     stone::Stone,
+    world::StoneEntities,
 };
 
 pub fn movement(
@@ -132,14 +132,17 @@ pub fn restart_level(player_transform: &mut Transform) {
     player_transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
 }
 
-pub fn move_stones(
-    time: Res<Time>,
-    mut query: Query<(&Stone, &mut Transform)>,
-) {
-    for (stone, mut transform) in query.iter_mut() {
-        if stone.speed > 0.0 { // Only move if speed is greater than zero
+pub fn move_stones(time: Res<Time>, mut stone_query: Query<(&Stone, &mut Transform)>) {
+    for (stone, mut transform) in stone_query.iter_mut() {
+        if stone.speed > 0.0 {
+            // Only move if speed is greater than zero
             transform.translation.x += stone.direction.x * stone.speed * time.delta_seconds();
-            // Add logic to reverse direction if hitting boundaries, etc.
+
+            // Check if the stone has moved past the left boundary
+            if transform.translation.x < LEFT_BOUNDARY {
+                // Move the stone to the right side of the screen
+                transform.translation.x = RIGHT_BOUNDARY + STONE_WIDTH; // Adjust as needed
+            }
         }
     }
 }
