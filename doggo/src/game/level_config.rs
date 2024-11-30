@@ -18,6 +18,7 @@ pub struct LevelConfig {
     pub stone_interval: f32, // Stone interval in pixels
     pub stone_speed: f32,    // Stone speed in pixels per second (optional)
     pub sky_bars: usize,     // Number of sky bars in the level
+    pub sky_bar_interval: f32, // Sky bar interval in pixels
 }
 
 pub const LEVELS: &[LevelConfig] = &[
@@ -29,6 +30,7 @@ pub const LEVELS: &[LevelConfig] = &[
         stone_interval: 50.0,
         stone_speed: 0.0,
         sky_bars: 0,
+        sky_bar_interval: 0.0,
     },
     LevelConfig {
         name: "Level 2",
@@ -38,6 +40,7 @@ pub const LEVELS: &[LevelConfig] = &[
         stone_interval: 400.0,
         stone_speed: 0.0,
         sky_bars: 0,
+        sky_bar_interval: 0.0,
     },
     LevelConfig {
         name: "Level 3",
@@ -47,6 +50,7 @@ pub const LEVELS: &[LevelConfig] = &[
         stone_interval: 350.0,
         stone_speed: 0.0,
         sky_bars: 0,
+        sky_bar_interval: 0.0,
     },
     LevelConfig {
         name: "Level 4",
@@ -56,6 +60,7 @@ pub const LEVELS: &[LevelConfig] = &[
         stone_interval: 350.0,
         stone_speed: 2.0 * STONE_SPEED,
         sky_bars: 0,
+        sky_bar_interval: 0.0,
     },
     LevelConfig {
         name: "Level 5",
@@ -65,6 +70,7 @@ pub const LEVELS: &[LevelConfig] = &[
         stone_interval: 300.0,
         stone_speed: 2.0 * STONE_SPEED,
         sky_bars: 0,
+        sky_bar_interval: 0.0,
     },
     LevelConfig {
         name: "Level 6",
@@ -74,8 +80,19 @@ pub const LEVELS: &[LevelConfig] = &[
         stone_interval: 0.0,
         stone_speed: 0.0,
         sky_bars: 2,
+        sky_bar_interval: 250.0,
     },
-];
+    LevelConfig {
+        name: "Level 7",
+        index: 6,
+        stone_count: 1,
+        stones_moving: true,
+        stone_interval: 300.0,
+        stone_speed: STONE_SPEED,
+        sky_bars: 3,
+        sky_bar_interval: 250.0,
+    },
+    ];
 
 // Example function to set the current level
 pub fn set_current_level(level_index: usize) {

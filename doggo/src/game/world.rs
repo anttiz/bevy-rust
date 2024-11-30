@@ -5,16 +5,28 @@ use bevy::ecs::system::Resource;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use crate::game::stone::spawn_stones;
-
+use crate::game::sky_bar::spawn_sky_bars;
 #[derive(Resource)]
 pub struct StoneEntities(pub Vec<Entity>);
+#[derive(Resource)]
+pub struct SkyBarEntities(pub Vec<Entity>);
 
-pub fn spawn_world(mut commands: Commands, mut stone_entities: ResMut<StoneEntities>) {
+pub fn spawn_world(
+    mut commands: Commands,
+    mut stone_entities: ResMut<StoneEntities>,
+    mut sky_bar_entities: ResMut<SkyBarEntities>,
+) {
     // Despawn previous stones
     for entity in stone_entities.0.iter() {
         commands.entity(*entity).despawn();
     }
     stone_entities.0.clear(); // Clear the vector for the new level
+
+    // Despawn previous sky bars
+    for entity in sky_bar_entities.0.iter() {
+        commands.entity(*entity).despawn();
+    }
+    sky_bar_entities.0.clear(); // Clear the vector for the new level
 
     // Print level names
     for level in LEVELS {
@@ -26,6 +38,7 @@ pub fn spawn_world(mut commands: Commands, mut stone_entities: ResMut<StoneEntit
     spawn_stones(&mut commands, level_config, &mut stone_entities);
     spawn_grass(&mut commands);
     spawn_floor(&mut commands);
+    spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
 }
 
 // New function to spawn grass

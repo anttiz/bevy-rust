@@ -9,7 +9,7 @@ use game::player_sprite::trigger_animation;
 use game::player_sprite::execute_animations;
 use bevy::input::common_conditions::input_just_pressed;
 use game::setup;
-use game::world::StoneEntities;
+use game::world::{StoneEntities, SkyBarEntities};
 use systems::ground_detection::ground_detection;
 use systems::movement::movement;
 use systems::collision_detection::collision_detection;
@@ -18,6 +18,7 @@ use systems::movement::move_stones;
 fn main() {
     App::new()
         .insert_resource(StoneEntities(Vec::new()))
+        .insert_resource(SkyBarEntities(Vec::new()))
         .add_plugins(
             DefaultPlugins
                 .set(WindowPlugin {

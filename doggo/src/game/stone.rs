@@ -1,11 +1,9 @@
 use crate::game::constants::*;
 use crate::game::level_config::LevelConfig;
 use crate::game::world::StoneEntities;
+use crate::game::deadly_item::{DeadlyItem};
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-
-#[derive(Component)]
-pub struct DeadlyItem;
 
 #[derive(Component)]
 pub struct Stone {

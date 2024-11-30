@@ -4,6 +4,7 @@ use bevy::prelude::*;
 pub const WINDOW_WIDTH: f32 = 1024.0;
 pub const WINDOW_HEIGHT: f32 = 720.0;
 pub const WINDOW_BOTTOM_Y: f32 = WINDOW_HEIGHT / -2.0;
+pub const WINDOW_TOP_Y: f32 = WINDOW_HEIGHT / 2.0;
 
 // Game world constants
 pub const SKY_HEIGHT_PERCENT: f32 = 80.0;
@@ -43,6 +44,11 @@ pub const STONE_HEIGHT: f32 = 30.0;
 pub const STONE_CUBOID_WIDTH: f32 = 1.0;
 pub const STONE_CUBOID_HEIGHT: f32 = 1.0;
 pub const STONE_SPEED: f32 = 100.0;
+
+pub const SKY_BAR_WIDTH: f32 = 30.0;
+pub const SKY_BAR_START_Y: f32 = 0.0;
+pub const SKY_BAR_CUBOID_WIDTH: f32 = 1.0;
+pub const SKY_BAR_CUBOID_HEIGHT: f32 = 1.0;
 
 // Spritesheet constants
 pub const SPRITE_TILE_WIDTH: f32 = 64.0;
