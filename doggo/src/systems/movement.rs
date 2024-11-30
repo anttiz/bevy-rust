@@ -10,6 +10,7 @@ use crate::game::{
     player::Player,
     player_sprite::{enter_next_level, PlayerSprite},
     world::StoneEntities,
+    stone::Stone,
 };
 
 pub fn movement(
@@ -129,4 +130,16 @@ pub fn restart_level(player_transform: &mut Transform) {
           .insert(Transform::from_xyz(PLAYER_START_X, PLAYER_START_Y, 1.0));
     */
     player_transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
+}
+
+pub fn move_stones(
+    time: Res<Time>,
+    mut query: Query<(&Stone, &mut Transform)>,
+) {
+    for (stone, mut transform) in query.iter_mut() {
+        if stone.speed > 0.0 { // Only move if speed is greater than zero
+            transform.translation.x += stone.direction.x * stone.speed * time.delta_seconds();
+            // Add logic to reverse direction if hitting boundaries, etc.
+        }
+    }
 }

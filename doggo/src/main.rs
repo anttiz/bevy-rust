@@ -13,6 +13,7 @@ use game::world::StoneEntities;
 use systems::ground_detection::ground_detection;
 use systems::movement::movement;
 use systems::collision_detection::collision_detection;
+use systems::movement::move_stones;
 
 fn main() {
     App::new()
@@ -46,5 +47,6 @@ fn main() {
                     .or_else(input_just_pressed(KeyCode::ArrowLeft)),
             ),
         )
+        .add_systems(Update, move_stones)
         .run();
 }

@@ -1,15 +1,21 @@
-use bevy::prelude::*;
 use crate::game::constants::*;
 use crate::game::level_config::LevelConfig;
 use crate::game::world::StoneEntities;
+use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 #[derive(Component)]
-pub struct Stone;
+pub struct Stone {
+    pub speed: f32,
+    pub direction: Vec2,
+}
 
 impl Default for Stone {
     fn default() -> Self {
-        Stone {}
+        Stone {
+            speed: 0.0,
+            direction: Vec2::ZERO,
+        }
     }
 }
 
@@ -42,7 +48,18 @@ pub fn spawn_stones(
                 STONE_CUBOID_WIDTH / 2.0,
                 STONE_CUBOID_HEIGHT / 2.0,
             ))
-            .insert(Stone::default())
+            .insert(Stone {
+                speed: if level_config.stones_moving {
+                    50.0
+                } else {
+                    0.0
+                }, // Set speed based on stones_moving
+                direction: if level_config.stones_moving {
+                    Vec2::new(-1.0, 0.0)
+                } else {
+                    Vec2::ZERO
+                }, // Move left if stones are moving
+            })
             .id(); // Get the entity ID
 
         stone_entities.0.push(entity); // Store the entity ID
