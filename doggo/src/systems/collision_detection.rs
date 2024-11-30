@@ -9,7 +9,7 @@ pub fn collision_detection(
 ) {
     // Handle PlayerSprite ground detection
     for (mut player_sprite, mut transform) in sprite_query.iter_mut() {
-        check_deadly_item_collision(&mut transform, &deadly_item_query);
+        check_deadly_item_collision(&mut transform, &deadly_item_query, &mut player_sprite);
     }
 }
 
@@ -29,6 +29,7 @@ fn is_colliding_with_deadly_item(player_x: f32, player_y: f32, deadly_item_x: f3
 fn check_deadly_item_collision(
     player_transform: &mut Transform,
     deadly_item_query: &Query<(&DeadlyItem, &Transform), Without<PlayerSprite>>,
+    player_sprite: &mut PlayerSprite,
 ) {
     let player_x = player_transform.translation.x;
     let player_y = player_transform.translation.y;
@@ -38,6 +39,7 @@ fn check_deadly_item_collision(
 
         if is_colliding_with_deadly_item(player_x, player_y, deadly_item_x, deadly_item_y) {
             println!("Player collided with item: {}, {}", player_x, deadly_item_x);
+            player_sprite.health = 0;
             restart_level(player_transform);
         }
     }

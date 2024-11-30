@@ -10,7 +10,7 @@ use crate::game::{
     player::Player,
     player_sprite::{enter_next_level, PlayerSprite},
     stone::Stone,
-    world::{StoneEntities, SkyBarEntities},
+    world::{respawn_world, SkyBarEntities, StoneEntities},
 };
 
 pub fn movement(
@@ -30,8 +30,8 @@ pub fn movement(
         ),
         Without<Player>,
     >,
-    stone_entities: ResMut<StoneEntities>,
-    sky_bar_entities: ResMut<SkyBarEntities>,
+    mut stone_entities: ResMut<StoneEntities>,
+    mut sky_bar_entities: ResMut<SkyBarEntities>,
 ) {
     // Handle Player movement
     for (mut player_controller, mut player, mut transform) in query.iter_mut() {
@@ -80,6 +80,13 @@ pub fn movement(
     // Handle PlayerSprite movement
     for (mut sprite_controller, mut player_sprite, mut transform) in sprite_query.iter_mut() {
         let mut translation = Vec2::new(0.0, 0.0);
+
+        if player_sprite.health == 0 {
+            restart_level(&mut transform);
+            respawn_world(commands, stone_entities, sky_bar_entities);
+            player_sprite.health = 100;
+            return;
+        }
 
         if !player_sprite.on_ground {
             player_sprite.vertical_velocity += GRAVITY_REDUCED * time.delta_seconds();
@@ -131,11 +138,6 @@ pub fn movement(
 }
 
 pub fn restart_level(player_transform: &mut Transform) {
-    /*
-    commands
-        .entity(player_entity)
-          .insert(Transform::from_xyz(PLAYER_START_X, PLAYER_START_Y, 1.0));
-    */
     player_transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
 }
 

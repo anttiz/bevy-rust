@@ -15,6 +15,7 @@ use super::constants::{
 pub struct PlayerSprite {
     pub vertical_velocity: f32,
     pub on_ground: bool,
+    pub health: u8,
 }
 
 impl Default for PlayerSprite {
@@ -22,6 +23,7 @@ impl Default for PlayerSprite {
         PlayerSprite {
             vertical_velocity: 0.0,
             on_ground: true,
+            health: 100,
         }
     }
 }

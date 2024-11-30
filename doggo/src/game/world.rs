@@ -1,11 +1,11 @@
 use super::constants::*;
 use super::level_config::LEVELS;
 use super::level_config::{get_current_level, set_current_level, LevelConfig};
+use crate::game::sky_bar::spawn_sky_bars;
+use crate::game::stone::spawn_stones;
 use bevy::ecs::system::Resource;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-use crate::game::stone::spawn_stones;
-use crate::game::sky_bar::spawn_sky_bars;
 #[derive(Resource)]
 pub struct StoneEntities(pub Vec<Entity>);
 #[derive(Resource)]
@@ -16,17 +16,7 @@ pub fn spawn_world(
     mut stone_entities: ResMut<StoneEntities>,
     mut sky_bar_entities: ResMut<SkyBarEntities>,
 ) {
-    // Despawn previous stones
-    for entity in stone_entities.0.iter() {
-        commands.entity(*entity).despawn();
-    }
-    stone_entities.0.clear(); // Clear the vector for the new level
-
-    // Despawn previous sky bars
-    for entity in sky_bar_entities.0.iter() {
-        commands.entity(*entity).despawn();
-    }
-    sky_bar_entities.0.clear(); // Clear the vector for the new level
+    despawn_previous_entities(&mut commands, &mut stone_entities, &mut sky_bar_entities);
 
     // Print level names
     for level in LEVELS {
@@ -41,6 +31,35 @@ pub fn spawn_world(
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
 }
 
+pub fn despawn_previous_entities(
+    commands: &mut Commands,
+    stone_entities: &mut ResMut<StoneEntities>,
+    sky_bar_entities: &mut ResMut<SkyBarEntities>,
+) {
+    // Despawn previous stones
+    for entity in stone_entities.0.iter() {
+        commands.entity(*entity).despawn();
+    }
+    stone_entities.0.clear(); // Clear the vector for the new level
+
+    // Despawn previous sky bars
+    for entity in sky_bar_entities.0.iter() {
+        commands.entity(*entity).despawn();
+    }
+    sky_bar_entities.0.clear(); // Clear the vector for the new level
+}
+
+pub fn respawn_world(
+    mut commands: Commands,
+    mut stone_entities: ResMut<StoneEntities>,
+    mut sky_bar_entities: ResMut<SkyBarEntities>,
+) {
+    let current_level = get_current_level();
+    let level_config = &LEVELS[current_level];
+    despawn_previous_entities(&mut commands, &mut stone_entities, &mut sky_bar_entities);
+    spawn_stones(&mut commands, level_config, &mut stone_entities);
+    spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
+}
 // New function to spawn grass
 fn spawn_grass(commands: &mut Commands) {
     commands.spawn(SpriteBundle {

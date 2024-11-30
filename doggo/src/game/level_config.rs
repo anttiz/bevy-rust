@@ -4,7 +4,7 @@ use std::sync::Mutex;
 // Add this at the top of the file to import the lazy_static crate
 use lazy_static::lazy_static; // Import lazy_static
 
-const STARTING_LEVEL: usize = 5;
+const STARTING_LEVEL: usize = 6;
 // Define a global variable for the current level
 lazy_static! {
     pub static ref CURRENT_LEVEL: Mutex<usize> = Mutex::new(STARTING_LEVEL); // Initialize to level 0
@@ -89,8 +89,8 @@ pub const LEVELS: &[LevelConfig] = &[
         stones_moving: true,
         stone_interval: 300.0,
         stone_speed: STONE_SPEED,
-        sky_bars: 3,
-        sky_bar_interval: 250.0,
+        sky_bars: 2,
+        sky_bar_interval: 300.0,
     },
     ];
 

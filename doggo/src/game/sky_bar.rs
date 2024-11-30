@@ -14,7 +14,7 @@ pub struct SkyBar {
 pub fn spawn_sky_bars(
     commands: &mut Commands,
     level_config: &LevelConfig,
-    sky_bar_entities: &mut SkyBarEntities,
+    sky_bar_entities: &mut ResMut<SkyBarEntities>,
 ) {
     // Calculate the starting position to center the stones
     let total_width = (level_config.sky_bars as f32 - 1.0) * level_config.sky_bar_interval;
