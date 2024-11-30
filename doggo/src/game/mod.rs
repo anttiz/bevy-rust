@@ -3,6 +3,7 @@ pub mod level_config;
 pub mod player;
 pub mod player_sprite;
 pub mod world;
+pub mod stone;
 
 use bevy::prelude::*;
 use world::StoneEntities;
