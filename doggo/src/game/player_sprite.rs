@@ -189,12 +189,11 @@ pub fn enter_next_level(
     mut stone_entities: ResMut<StoneEntities>,
     mut sky_bar_entities: ResMut<SkyBarEntities>,
 ) -> bool {
-    println!("Current Level: {}", get_current_level());
     if get_current_level() + 1 >= LEVELS.len() {
-        // println!("No more levels");
         panic!("No more levels");
     }
     set_current_level(get_current_level() + 1);
+    println!("Next Level: {}", get_current_level());
     // Set absolute position using Transform
     transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
     // Reset the movement delta

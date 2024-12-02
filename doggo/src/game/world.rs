@@ -18,10 +18,6 @@ pub fn spawn_world(
 ) {
     despawn_previous_entities(&mut commands, &mut stone_entities, &mut sky_bar_entities);
 
-    // Print level names
-    for level in LEVELS {
-        println!("Level Name: {}", level.name);
-    }
     let current_level = get_current_level();
     let level_config = &LEVELS[current_level];
     spawn_sky(&mut commands);
