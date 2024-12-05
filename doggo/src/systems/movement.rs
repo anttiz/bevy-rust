@@ -162,17 +162,17 @@ pub fn move_stones(time: Res<Time>, mut stone_query: Query<(&Stone, &mut Transfo
 pub fn move_elevators(time: Res<Time>, mut query: Query<(&mut Transform, &mut Elevator)>) {
     let current_level = get_current_level();
     let level_config = &LEVELS[current_level];
-    let speed = level_config.elevator_speed;
+
     for (mut transform, mut elevator) in query.iter_mut() {
+        // Get the elevator configuration for the current elevator
+        let elevator_config = &level_config.elevators[elevator.index]; // Assuming Elevator has an index field
         let direction = if elevator.moving_up { 1.0 } else { -1.0 };
-        transform.translation.y += direction * speed * time.delta_seconds();
+        transform.translation.y += direction * elevator_config.speed * time.delta_seconds();
 
         // Change direction when reaching certain heights
-        if transform.translation.y > level_config.elevator_end_y {
-            // Upper limit
+        if transform.translation.y > elevator_config.end_y {
             elevator.moving_up = false;
-        } else if transform.translation.y < level_config.elevator_start_y {
-            // Lower limit
+        } else if transform.translation.y < elevator_config.start_y {
             elevator.moving_up = true;
         }
     }

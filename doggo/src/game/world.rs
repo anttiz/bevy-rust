@@ -2,8 +2,10 @@ use super::constants::*;
 use super::level_config::LEVELS;
 use super::level_config::{get_current_level, set_current_level, LevelConfig};
 use crate::game::elevator::spawn_elevator;
+use crate::game::grass::spawn_grass;
 use crate::game::sky_bar::spawn_sky_bars;
 use crate::game::stone::spawn_stones;
+use crate::game::block::spawn_blocks;
 use bevy::ecs::system::Resource;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
@@ -26,15 +28,13 @@ pub fn spawn_world(
     spawn_grass(&mut commands);
     spawn_floor(&mut commands);
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
+    spawn_blocks(&mut commands, level_config);
 
-    if level_config.elevator_count > 0 {
+    for (index, elevator) in level_config.elevators.iter().enumerate() {
         spawn_elevator(
             &mut commands,
-            Vec3::new(
-                level_config.elevator_start_x,
-                level_config.elevator_start_y,
-                0.0,
-            ),
+            Vec3::new(elevator.start_x, elevator.start_y, 0.0),
+            index,
         );
     }
 }
@@ -67,25 +67,6 @@ pub fn respawn_world(
     despawn_previous_entities(&mut commands, &mut stone_entities, &mut sky_bar_entities);
     spawn_stones(&mut commands, level_config, &mut stone_entities);
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
-}
-// New function to spawn grass
-fn spawn_grass(commands: &mut Commands) {
-    commands.spawn(SpriteBundle {
-        sprite: Sprite {
-            color: COLOR_GRASS,
-            ..Default::default()
-        },
-        transform: Transform {
-            translation: Vec3::new(0.0, GRASS_TOP_Y, 0.0),
-            scale: Vec3::new(
-                -WINDOW_WIDTH,
-                WINDOW_HEIGHT * GRASS_HEIGHT_PERCENT / 100.0,
-                1.0,
-            ),
-            ..Default::default()
-        },
-        ..Default::default()
-    });
 }
 
 fn spawn_floor(commands: &mut Commands) {

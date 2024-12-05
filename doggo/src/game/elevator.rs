@@ -7,15 +7,16 @@ use bevy_rapier2d::prelude::*;
 #[derive(Component)]
 pub struct Elevator {
     pub moving_up: bool,
+    pub index: usize,
 }
 
 impl Default for Elevator {
     fn default() -> Self {
-        Elevator { moving_up: true }
+        Elevator { moving_up: true, index: 0 }
     }
 }
 
-pub fn spawn_elevator(commands: &mut Commands, position: Vec3) {
+pub fn spawn_elevator(commands: &mut Commands, position: Vec3, index: usize) {
     commands
         .spawn(SpriteBundle {
             sprite: Sprite {
@@ -31,5 +32,8 @@ pub fn spawn_elevator(commands: &mut Commands, position: Vec3) {
         })
         .insert(RigidBody::KinematicPositionBased)
         .insert(Collider::cuboid(0.5, 0.5))
-        .insert(Elevator::default());
+        .insert(Elevator {
+            moving_up: true,
+            index,
+        });
 }
