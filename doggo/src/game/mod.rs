@@ -6,8 +6,11 @@ pub mod world;
 pub mod stone;
 pub mod sky_bar;
 pub mod deadly_item;
+pub mod elevator;
+
 use bevy::prelude::*;
 use world::{StoneEntities, SkyBarEntities};
+
 
 
 use self::{player_sprite::spawn_player as spawn_player_sprite, world::spawn_world};

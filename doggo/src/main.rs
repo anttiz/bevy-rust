@@ -17,6 +17,7 @@ use systems::movement::movement;
 use systems::collision_detection::collision_detection;
 use systems::movement::move_stones;
 use systems::ui::{setup_level_ui, update_level_ui};
+use systems::movement::move_elevators;
 
 fn main() {
     App::new()
@@ -55,5 +56,6 @@ fn main() {
         .add_systems(Update, move_stones)
         .add_systems(Startup, setup_level_ui)
         .add_systems(Update, update_level_ui)
+        .add_systems(Update, move_elevators)
         .run();
 }

@@ -52,6 +52,12 @@ pub const SKY_BAR_CUBOID_HEIGHT: f32 = 1.0;
 // light brown
 pub const SKY_BAR_COLOR: Color = Color::srgba(0.5, 0.4, 0.3, 255.0);
 
+// Elevator constants
+pub const ELEVATOR_HEIGHT: f32 = 30.0;
+pub const ELEVATOR_WIDTH: f32 = 4.0 * ELEVATOR_HEIGHT;
+pub const ELEVATOR_COLOR: Color = Color::srgba(0.5, 0.4, 0.3, 255.0);
+pub const ELEVATOR_START_X: f32 = 100.0;
+
 // Spritesheet constants
 pub const SPRITE_TILE_WIDTH: f32 = 64.0;
 pub const SPRITE_TILE_HEIGHT: f32 = 64.0;

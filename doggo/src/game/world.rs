@@ -1,6 +1,7 @@
 use super::constants::*;
 use super::level_config::LEVELS;
 use super::level_config::{get_current_level, set_current_level, LevelConfig};
+use crate::game::elevator::spawn_elevator;
 use crate::game::sky_bar::spawn_sky_bars;
 use crate::game::stone::spawn_stones;
 use bevy::ecs::system::Resource;
@@ -25,6 +26,10 @@ pub fn spawn_world(
     spawn_grass(&mut commands);
     spawn_floor(&mut commands);
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
+
+    if level_config.elevator_count > 0 {
+        spawn_elevator(&mut commands, Vec3::new(ELEVATOR_START_X, 0.0, 0.0));
+    }
 }
 
 pub fn despawn_previous_entities(
