@@ -1,4 +1,5 @@
 use super::level_config::{get_current_level, set_current_level, LEVELS};
+use super::CurrentLevel;
 use bevy::input::ButtonInput;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
@@ -188,17 +189,19 @@ pub fn enter_next_level(
     mut transform: Mut<'_, Transform>,
     mut stone_entities: ResMut<StoneEntities>,
     mut sky_bar_entities: ResMut<SkyBarEntities>,
+    mut current_level: ResMut<CurrentLevel>,
 ) -> bool {
     if get_current_level() + 1 >= LEVELS.len() {
         panic!("No more levels");
     }
     set_current_level(get_current_level() + 1);
-    println!("Next Level: {}", get_current_level());
+    // println!("Next Level: {}", get_current_level());
     // Set absolute position using Transform
     transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
     // Reset the movement delta
     sprite_controller.translation = Some(Vec2::ZERO);
     // Spawn new world
     spawn_world(commands, stone_entities, sky_bar_entities);
+    current_level.level = get_current_level();
     return true;
 }

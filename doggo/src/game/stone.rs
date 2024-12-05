@@ -67,6 +67,6 @@ pub fn spawn_stones(
         stone_entities.0.push(entity); // Store the entity ID
 
         // Debugging output to confirm stone creation
-        println!("Spawned stone at x: {}", x_pos);
+        // println!("Spawned stone at x: {}", x_pos);
     }
 }

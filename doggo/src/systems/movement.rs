@@ -10,7 +10,7 @@ use crate::game::{
     player::Player,
     player_sprite::{enter_next_level, PlayerSprite},
     stone::Stone,
-    world::{respawn_world, SkyBarEntities, StoneEntities},
+    world::{respawn_world, SkyBarEntities, StoneEntities}, CurrentLevel,
 };
 
 pub fn movement(
@@ -32,6 +32,7 @@ pub fn movement(
     >,
     mut stone_entities: ResMut<StoneEntities>,
     mut sky_bar_entities: ResMut<SkyBarEntities>,
+    mut current_level: ResMut<CurrentLevel>,
 ) {
     // Handle Player movement
     for (mut player_controller, mut player, mut transform) in query.iter_mut() {
@@ -103,7 +104,6 @@ pub fn movement(
         }
 
         if input.just_pressed(KeyCode::Space) && player_sprite.on_ground {
-            println!("Jumping");
             player_sprite.vertical_velocity += JUMP_VELOCITY;
             player_sprite.on_ground = false;
         }
@@ -126,6 +126,7 @@ pub fn movement(
                 transform,
                 stone_entities,
                 sky_bar_entities,
+                current_level,
             );
             return;
         }

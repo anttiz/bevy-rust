@@ -29,13 +29,11 @@ pub fn spawn_sky_bars(
 
 // Implement the SkyBar logic
 fn setup_sky_bar(commands: &mut Commands, x_pos: f32) -> Entity {
-    println!("SKY_BAR_START_Y: {}", SKY_BAR_START_Y);
-    println!("WINDOW_TOP_Y: {}", WINDOW_TOP_Y);
     const SKY_BAR_HEIGHT: f32 = WINDOW_TOP_Y - SKY_BAR_START_Y;
     let entity = commands
         .spawn(SpriteBundle {
             sprite: Sprite {
-                color: COLOR_PLATFORM,
+                color: SKY_BAR_COLOR,
                 ..Default::default()
             },
             transform: Transform {

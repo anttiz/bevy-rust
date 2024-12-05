@@ -49,6 +49,8 @@ pub const SKY_BAR_WIDTH: f32 = 30.0;
 pub const SKY_BAR_START_Y: f32 = 0.0;
 pub const SKY_BAR_CUBOID_WIDTH: f32 = 1.0;
 pub const SKY_BAR_CUBOID_HEIGHT: f32 = 1.0;
+// light brown
+pub const SKY_BAR_COLOR: Color = Color::srgba(0.5, 0.4, 0.3, 255.0);
 
 // Spritesheet constants
 pub const SPRITE_TILE_WIDTH: f32 = 64.0;

@@ -5,20 +5,24 @@ mod game;
 mod systems;
 
 use game::constants::*;
+use game::level_config::get_current_level;
 use game::player_sprite::trigger_animation;
 use game::player_sprite::execute_animations;
 use bevy::input::common_conditions::input_just_pressed;
 use game::setup;
 use game::world::{StoneEntities, SkyBarEntities};
+use game::CurrentLevel;
 use systems::ground_detection::ground_detection;
 use systems::movement::movement;
 use systems::collision_detection::collision_detection;
 use systems::movement::move_stones;
+use systems::ui::{setup_level_ui, update_level_ui};
 
 fn main() {
     App::new()
         .insert_resource(StoneEntities(Vec::new()))
         .insert_resource(SkyBarEntities(Vec::new()))
+        .insert_resource(CurrentLevel { level: get_current_level() })
         .add_plugins(
             DefaultPlugins
                 .set(WindowPlugin {
@@ -49,5 +53,7 @@ fn main() {
             ),
         )
         .add_systems(Update, move_stones)
+        .add_systems(Startup, setup_level_ui)
+        .add_systems(Update, update_level_ui)
         .run();
 }

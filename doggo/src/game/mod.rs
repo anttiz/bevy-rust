@@ -27,3 +27,14 @@ pub fn setup(
     spawn_player_sprite(&mut commands, asset_server, texture_atlas_layouts);
     spawn_world(commands, stone_entities, sky_bar_entities);
 }
+
+#[derive(Resource)]
+pub struct CurrentLevel {
+    pub level: usize,
+}
+
+impl Default for CurrentLevel {
+    fn default() -> Self {
+        CurrentLevel { level: 0 }
+    }
+}
