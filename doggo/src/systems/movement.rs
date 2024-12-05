@@ -5,7 +5,14 @@ use crate::game::{
     constants::{
         COLLISION_THRESHOLD, GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_START_X,
         PLAYER_START_Y, PLAYER_VELOCITY_X, RIGHT_BOUNDARY, STONE_WIDTH,
-    }, elevator::Elevator, level_config::set_current_level, player::Player, player_sprite::{enter_next_level, PlayerSprite}, stone::Stone, world::{respawn_world, SkyBarEntities, StoneEntities}, CurrentLevel
+    },
+    elevator::Elevator,
+    level_config::{get_current_level, set_current_level, LEVELS},
+    player::Player,
+    player_sprite::{enter_next_level, PlayerSprite},
+    stone::Stone,
+    world::{respawn_world, SkyBarEntities, StoneEntities},
+    CurrentLevel,
 };
 
 pub fn movement(
@@ -153,15 +160,18 @@ pub fn move_stones(time: Res<Time>, mut stone_query: Query<(&Stone, &mut Transfo
 }
 
 pub fn move_elevators(time: Res<Time>, mut query: Query<(&mut Transform, &mut Elevator)>) {
+    let current_level = get_current_level();
+    let level_config = &LEVELS[current_level];
+    let speed = level_config.elevator_speed;
     for (mut transform, mut elevator) in query.iter_mut() {
         let direction = if elevator.moving_up { 1.0 } else { -1.0 };
-        transform.translation.y += direction * elevator.speed * time.delta_seconds();
+        transform.translation.y += direction * speed * time.delta_seconds();
 
         // Change direction when reaching certain heights
-        if transform.translation.y > 300.0 {
+        if transform.translation.y > level_config.elevator_end_y {
             // Upper limit
             elevator.moving_up = false;
-        } else if transform.translation.y < 100.0 {
+        } else if transform.translation.y < level_config.elevator_start_y {
             // Lower limit
             elevator.moving_up = true;
         }

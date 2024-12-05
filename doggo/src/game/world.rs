@@ -28,7 +28,14 @@ pub fn spawn_world(
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
 
     if level_config.elevator_count > 0 {
-        spawn_elevator(&mut commands, Vec3::new(ELEVATOR_START_X, 0.0, 0.0));
+        spawn_elevator(
+            &mut commands,
+            Vec3::new(
+                level_config.elevator_start_x,
+                level_config.elevator_start_y,
+                0.0,
+            ),
+        );
     }
 }
 

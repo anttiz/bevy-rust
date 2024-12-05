@@ -1,18 +1,17 @@
+use crate::{
+    game::constants::{ELEVATOR_HEIGHT, ELEVATOR_WIDTH},
+    ELEVATOR_COLOR,
+};
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-use crate::{game::constants::{ELEVATOR_HEIGHT, ELEVATOR_WIDTH}, ELEVATOR_COLOR};
 #[derive(Component)]
 pub struct Elevator {
     pub moving_up: bool,
-    pub speed: f32,
 }
 
 impl Default for Elevator {
     fn default() -> Self {
-        Elevator {
-            moving_up: true,
-            speed: 50.0, // Speed of the elevator
-        }
+        Elevator { moving_up: true }
     }
 }
 
