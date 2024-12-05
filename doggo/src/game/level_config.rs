@@ -142,13 +142,12 @@ lazy_static! {
                 },
                 ],
             blocks: vec![
-                /*
                 BlockConfig {
                     start_x: 100.0 + ELEVATOR_WIDTH,
-                    start_y: GRASS_TOP_Y + 120.0,
+                    start_y: GRASS_TOP_Y + 100.0,
                     width: 100.0,
-                    height: 100.0,
-                },*/
+                    height: 550.0,
+                },
                 /*
                 BlockConfig {
                     start_x: 200.0,

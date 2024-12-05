@@ -1,6 +1,6 @@
-use bevy::prelude::*;
 use crate::game::constants::*;
 use crate::game::level_config::LevelConfig;
+use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 #[derive(Component)]
@@ -21,7 +21,7 @@ pub fn spawn_block(commands: &mut Commands, position: Vec3, width: f32, height: 
             ..Default::default()
         })
         .insert(RigidBody::Fixed)
-        .insert(Collider::cuboid(width / 2.0, height / 2.0)) // Set collider
+        .insert(Collider::cuboid(0.5, 0.5)) // Set collider
         .insert(Block);
 }
 
