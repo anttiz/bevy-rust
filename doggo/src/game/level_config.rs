@@ -2,7 +2,7 @@ use crate::{game::constants::STONE_SPEED, ELEVATOR_WIDTH};
 use lazy_static::lazy_static;
 use std::sync::Mutex; // Import lazy_static
 
-const STARTING_LEVEL: usize = 0;
+const STARTING_LEVEL: usize = 8;
 
 use super::constants::GRASS_TOP_Y;
 

@@ -1,7 +1,7 @@
 use super::constants::*;
 use super::level_config::LEVELS;
 use super::level_config::{get_current_level, set_current_level, LevelConfig};
-use crate::game::elevator::spawn_elevator;
+use crate::game::elevator::spawn_elevators;
 use crate::game::grass::spawn_grass;
 use crate::game::sky_bar::spawn_sky_bars;
 use crate::game::stone::spawn_stones;
@@ -13,11 +13,14 @@ use bevy_rapier2d::prelude::*;
 pub struct StoneEntities(pub Vec<Entity>);
 #[derive(Resource)]
 pub struct SkyBarEntities(pub Vec<Entity>);
+#[derive(Resource)]
+pub struct ElevatorEntities(pub Vec<Entity>);
 
 pub fn spawn_world(
     mut commands: Commands,
     mut stone_entities: ResMut<StoneEntities>,
     mut sky_bar_entities: ResMut<SkyBarEntities>,
+    mut elevator_entities: ResMut<ElevatorEntities>,
 ) {
     despawn_previous_entities(&mut commands, &mut stone_entities, &mut sky_bar_entities);
 
@@ -29,14 +32,7 @@ pub fn spawn_world(
     spawn_floor(&mut commands);
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
     spawn_blocks(&mut commands, level_config);
-
-    for (index, elevator) in level_config.elevators.iter().enumerate() {
-        spawn_elevator(
-            &mut commands,
-            Vec3::new(elevator.start_x, elevator.start_y, 0.0),
-            index,
-        );
-    }
+    spawn_elevators(&mut commands, level_config, &mut elevator_entities);
 }
 
 pub fn despawn_previous_entities(
@@ -61,12 +57,14 @@ pub fn respawn_world(
     mut commands: Commands,
     mut stone_entities: ResMut<StoneEntities>,
     mut sky_bar_entities: ResMut<SkyBarEntities>,
+    mut elevator_entities: ResMut<ElevatorEntities>,
 ) {
     let current_level = get_current_level();
     let level_config = &LEVELS[current_level];
     despawn_previous_entities(&mut commands, &mut stone_entities, &mut sky_bar_entities);
     spawn_stones(&mut commands, level_config, &mut stone_entities);
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
+    spawn_elevators(&mut commands, level_config, &mut elevator_entities);
 }
 
 fn spawn_floor(commands: &mut Commands) {

@@ -9,7 +9,7 @@ pub mod elevator;
 pub mod grass;
 pub mod block;
 use bevy::prelude::*;
-use world::{StoneEntities, SkyBarEntities};
+use world::{ElevatorEntities, StoneEntities, SkyBarEntities};
 
 
 
@@ -24,10 +24,11 @@ pub fn setup(
     texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     stone_entities: ResMut<StoneEntities>,
     sky_bar_entities: ResMut<SkyBarEntities>,
+    elevator_entities: ResMut<ElevatorEntities>,
 ) {
     commands.spawn(Camera2dBundle::default());
     spawn_player_sprite(&mut commands, asset_server, texture_atlas_layouts);
-    spawn_world(commands, stone_entities, sky_bar_entities);
+    spawn_world(commands, stone_entities, sky_bar_entities, elevator_entities);
 }
 
 #[derive(Resource)]
