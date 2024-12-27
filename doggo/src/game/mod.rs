@@ -1,6 +1,5 @@
 pub mod constants;
 pub mod level_config;
-pub mod player;
 pub mod player_sprite;
 pub mod world;
 pub mod stone;
@@ -27,7 +26,6 @@ pub fn setup(
     sky_bar_entities: ResMut<SkyBarEntities>,
 ) {
     commands.spawn(Camera2dBundle::default());
-    // spawn_player(&mut commands, &mut meshes, &mut materials);
     spawn_player_sprite(&mut commands, asset_server, texture_atlas_layouts);
     spawn_world(commands, stone_entities, sky_bar_entities);
 }
