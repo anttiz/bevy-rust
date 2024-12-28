@@ -1,0 +1,112 @@
+[
+  {
+      "stone_count": 1,
+      "stones_moving": false,
+      "stone_interval": 50.0,
+      "stone_speed": 0.0,
+      "sky_bars": 0,
+      "sky_bar_interval": 0.0,
+      "elevators": [],
+      "blocks": []
+  },
+  {
+      "stone_count": 2,
+      "stones_moving": false,
+      "stone_interval": 400.0,
+      "stone_speed": 0.0,
+      "sky_bars": 0,
+      "sky_bar_interval": 0.0,
+      "elevators": [],
+      "blocks": []
+  },
+  {
+      "stone_count": 2,
+      "stones_moving": false,
+      "stone_interval": 350.0,
+      "stone_speed": 0.0,
+      "sky_bars": 0,
+      "sky_bar_interval": 0.0,
+      "elevators": [],
+      "blocks": []
+  },
+  {
+      "stone_count": 1,
+      "stones_moving": true,
+      "stone_interval": 400.0,
+      "stone_speed": 2.0, // Assuming STONE_SPEED is 1.0 for this example
+      "sky_bars": 0,
+      "sky_bar_interval": 0.0,
+      "elevators": [],
+      "blocks": []
+  },
+  {
+      "stone_count": 2,
+      "stones_moving": true,
+      "stone_interval": 400.0,
+      "stone_speed": 2.0, // Assuming STONE_SPEED is 1.0 for this example
+      "sky_bars": 0,
+      "sky_bar_interval": 0.0,
+      "elevators": [],
+      "blocks": []
+  },
+  {
+      "stone_count": 0,
+      "stones_moving": false,
+      "stone_interval": 0.0,
+      "stone_speed": 0.0,
+      "sky_bars": 2,
+      "sky_bar_interval": 250.0,
+      "elevators": [],
+      "blocks": []
+  },
+  {
+      "stone_count": 1,
+      "stones_moving": true,
+      "stone_interval": 300.0,
+      "stone_speed": 1.0, // Assuming STONE_SPEED is 1.0 for this example
+      "sky_bars": 2,
+      "sky_bar_interval": 300.0,
+      "elevators": [],
+      "blocks": []
+  },
+  {
+      "stone_count": 2,
+      "stones_moving": true,
+      "stone_interval": 300.0,
+      "stone_speed": 1.0, // Assuming STONE_SPEED is 1.0 for this example
+      "sky_bars": 2,
+      "sky_bar_interval": 300.0,
+      "elevators": [],
+      "blocks": []
+  },
+  {
+      "stone_count": 0,
+      "stones_moving": false,
+      "stone_interval": 0.0,
+      "stone_speed": 0.0,
+      "sky_bars": 0,
+      "sky_bar_interval": 0.0,
+      "elevators": [
+          {
+              "start_x": 100.0,
+              "start_y": "GRASS_TOP_Y + 50.0", // Replace with actual value
+              "speed": 50.0,
+              "end_y": "GRASS_TOP_Y + 300.0" // Replace with actual value
+          },
+          {
+              "start_x": -150.0,
+              "start_y": "GRASS_TOP_Y + 50.0", // Replace with actual value
+              "speed": 80.0,
+              "end_y": "GRASS_TOP_Y + 300.0" // Replace with actual value
+          }
+      ],
+      "blocks": [
+          {
+              "start_x": "100.0 + ELEVATOR_WIDTH", // Replace with actual value
+              "start_y": "GRASS_TOP_Y + 100.0", // Replace with actual value
+              "width": 100.0,
+              "height": 550.0
+          }
+      ]
+  }
+]

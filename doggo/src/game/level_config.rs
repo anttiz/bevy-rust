@@ -1,13 +1,16 @@
 use crate::{game::constants::STONE_SPEED, ELEVATOR_WIDTH};
 use lazy_static::lazy_static;
 use std::sync::Mutex; // Import lazy_static
+use serde::{Deserialize, Serialize}; // Add serde for JSON serialization/deserialization
+use std::fs::File; // Import File for file handling
+use std::io::Read; // Import Read for reading file content
 
 const STARTING_LEVEL: usize = 8;
 
 use super::constants::GRASS_TOP_Y;
 
 // Define a struct for Elevator properties
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct ElevatorConfig {
     pub start_x: f32, // Elevator start x position
     pub start_y: f32, // Elevator start y position
@@ -15,14 +18,14 @@ pub struct ElevatorConfig {
     pub end_y: f32,   // Elevator end y position
 }
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct BlockConfig {
     pub start_x: f32, // Block start x position
     pub start_y: f32, // Block start y position
     pub width: f32,    // Block width
     pub height: f32,   // Block height
 }
-
+#[derive(Clone, Serialize, Deserialize)]
 pub struct LevelConfig {
     pub stone_count: usize,             // Amount of stones in the level
     pub stones_moving: bool,            // Boolean if stones are moving
@@ -34,12 +37,21 @@ pub struct LevelConfig {
     pub blocks: Vec<BlockConfig>,       // Array of blocks
 }
 
-// Define a global variable for the current level
-lazy_static! {
-    pub static ref CURRENT_LEVEL: Mutex<usize> = Mutex::new(STARTING_LEVEL); // Initialize to level 0
+// Function to load level configurations from a JSON file
+pub fn load_level_configs_from_json(file_path: &str) -> Vec<LevelConfig> {
+    let mut file = File::open(file_path).expect("Unable to open file"); // Open the JSON file
+    let mut contents = String::new();
+    file.read_to_string(&mut contents).expect("Unable to read file"); // Read the file content
+    serde_json::from_str(&contents).expect("JSON was not well-formatted") // Deserialize JSON to Vec<LevelConfig>
+}
 
-    // Change LEVELS to a static reference
-    pub static ref LEVELS: Vec<LevelConfig> = vec![
+// Function to get the current level configurations
+pub fn get_level_configs() -> Vec<LevelConfig> {
+    // Uncomment the line below to load from JSON
+    // load_level_configs_from_json("path/to/your/levels.json")
+
+    // Keep the hardcoded levels as a fallback
+    vec![
         LevelConfig {
             stone_count: 1,
             stones_moving: false,
@@ -157,7 +169,15 @@ lazy_static! {
                 },*/
             ],
         },
-    ];
+    ]
+}
+
+// Define a global variable for the current level
+lazy_static! {
+    pub static ref CURRENT_LEVEL: Mutex<usize> = Mutex::new(STARTING_LEVEL); // Initialize to level 0
+
+    // Change LEVELS to a static reference
+    pub static ref LEVELS: Vec<LevelConfig> = get_level_configs(); // Load from either JSON or hardcoded values
 }
 
 // Example function to get elevator configurations for a level
