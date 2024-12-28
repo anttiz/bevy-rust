@@ -8,6 +8,7 @@ pub mod deadly_item;
 pub mod elevator;
 pub mod grass;
 pub mod block;
+pub mod sky;
 use bevy::prelude::*;
 use world::{ElevatorEntities, StoneEntities, SkyBarEntities};
 

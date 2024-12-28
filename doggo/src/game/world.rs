@@ -1,11 +1,12 @@
 use super::constants::*;
 use super::level_config::LEVELS;
-use super::level_config::{get_current_level, set_current_level, LevelConfig};
+use super::level_config::{get_current_level};
 use crate::game::elevator::spawn_elevators;
 use crate::game::grass::spawn_grass;
 use crate::game::sky_bar::spawn_sky_bars;
 use crate::game::stone::spawn_stones;
 use crate::game::block::spawn_blocks;
+use crate::game::sky::spawn_sky;
 use bevy::ecs::system::Resource;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
@@ -75,7 +76,7 @@ fn spawn_floor(commands: &mut Commands) {
                 ..Default::default()
             },
             transform: Transform {
-                translation: Vec3::new(0.0, GRASS_TOP_Y + 70.0, 0.0),
+                translation: Vec3::new(0.0, GRASS_CENTER_Y + 70.0, 0.0),
                 scale: Vec3::new(WINDOW_WIDTH, FLOOR_THICKNESS, 1.0),
                 ..Default::default()
             },
@@ -83,23 +84,4 @@ fn spawn_floor(commands: &mut Commands) {
         })
         .insert(RigidBody::Fixed)
         .insert(Collider::cuboid(0.5, 0.5));
-}
-
-fn spawn_sky(commands: &mut Commands) {
-    commands.spawn(SpriteBundle {
-        sprite: Sprite {
-            color: COLOR_SKY,
-            ..Default::default()
-        },
-        transform: Transform {
-            translation: Vec3::new(0.0, WINDOW_HEIGHT * 0.5, 0.0),
-            scale: Vec3::new(
-                WINDOW_WIDTH,
-                WINDOW_HEIGHT * SKY_HEIGHT_PERCENT / 100.0 * 2.0,
-                1.0,
-            ),
-            ..Default::default()
-        },
-        ..Default::default()
-    });
 }

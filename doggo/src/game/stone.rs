@@ -38,7 +38,7 @@ pub fn spawn_stones(
                     ..Default::default()
                 },
                 transform: Transform {
-                    translation: Vec3::new(x_pos, GRASS_TOP_Y + 90.0, 0.0),
+                    translation: Vec3::new(x_pos, GRASS_CENTER_Y + 90.0, 0.0),
                     scale: Vec3::new(STONE_WIDTH, STONE_HEIGHT, 1.0),
                     ..Default::default()
                 },

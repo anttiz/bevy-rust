@@ -61,7 +61,7 @@ pub fn movement(
         if input.just_pressed(KeyCode::Space) && player_sprite.on_ground {
             player_sprite.vertical_velocity += JUMP_VELOCITY;
             player_sprite.on_ground = false;
-            println!("Jumped");
+            // println!("Jumped");
         }
 
         translation.y += player_sprite.vertical_velocity * time.delta_seconds();

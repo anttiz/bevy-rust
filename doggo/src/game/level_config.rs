@@ -5,9 +5,9 @@ use serde::{Deserialize, Serialize}; // Add serde for JSON serialization/deseria
 use std::fs::File; // Import File for file handling
 use std::io::Read; // Import Read for reading file content
 
-const STARTING_LEVEL: usize = 8;
+const STARTING_LEVEL: usize = 0;
 
-use super::constants::GRASS_TOP_Y;
+use super::constants::GRASS_CENTER_Y;
 
 // Define a struct for Elevator properties
 #[derive(Clone, Serialize, Deserialize)]
@@ -142,21 +142,21 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             elevators: vec![
                 ElevatorConfig {
                     start_x: 100.0,
-                    start_y: GRASS_TOP_Y + 50.0,
+                    start_y: GRASS_CENTER_Y + 50.0,
                     speed: 50.0,
-                    end_y: GRASS_TOP_Y + 300.0,
+                    end_y: GRASS_CENTER_Y + 300.0,
                 },
                 ElevatorConfig {
                     start_x: -150.0,
-                    start_y: GRASS_TOP_Y + 50.0,
+                    start_y: GRASS_CENTER_Y + 50.0,
                     speed: 80.0,
-                    end_y: GRASS_TOP_Y + 300.0,
+                    end_y: GRASS_CENTER_Y + 300.0,
                 },
                 ],
             blocks: vec![
                 BlockConfig {
                     start_x: 100.0 + ELEVATOR_WIDTH,
-                    start_y: GRASS_TOP_Y + 100.0,
+                    start_y: GRASS_CENTER_Y + 100.0,
                     width: 100.0,
                     height: 550.0,
                 },

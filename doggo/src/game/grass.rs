@@ -8,10 +8,10 @@ pub fn spawn_grass(commands: &mut Commands) {
             ..Default::default()
         },
         transform: Transform {
-            translation: Vec3::new(0.0, GRASS_TOP_Y, 0.0),
+            translation: Vec3::new(0.0, GRASS_CENTER_Y, 0.0),
             scale: Vec3::new(
-                -WINDOW_WIDTH,
-                WINDOW_HEIGHT * GRASS_HEIGHT_PERCENT / 100.0,
+                WINDOW_WIDTH,
+                GRASS_HEIGHT,
                 1.0,
             ),
             ..Default::default()
