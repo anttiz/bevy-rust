@@ -194,8 +194,8 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             lasers: vec![LaserConfig {
                 start_x: 100.0,
                 length: 500.0,
-                laser_on_time_ms: 1000.0,
-                laser_off_time_ms: 1000.0,
+                laser_on_time_ms: 100.0,
+                laser_off_time_ms: 3000.0,
             }],
         },
         ]

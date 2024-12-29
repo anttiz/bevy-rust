@@ -17,6 +17,9 @@ pub fn collision_detection(
 fn is_colliding_with_deadly_item(player_x: f32, player_y: f32,
     deadly_item_center_x: f32, deadly_item_center_y: f32,
     deadly_item_width: f32, deadly_item_height: f32) -> bool {
+    if deadly_item_width == 0.0 || deadly_item_height == 0.0 {
+        return false;
+    }
     let player_height = 128.0;
     let player_lower_y = player_y - player_height / 2.0;
     let player_upper_y = player_lower_y + player_height;
