@@ -17,6 +17,13 @@ pub const GRASS_CENTER_Y: f32 = WINDOW_BOTTOM_Y + GRASS_HEIGHT / 2.0;
 pub const SKY_HEIGHT: f32 = WINDOW_HEIGHT * SKY_HEIGHT_PERCENT / 100.0;
 pub const SKY_CENTER_Y: f32 = WINDOW_TOP_Y - SKY_HEIGHT / 2.0;
 
+// Laser constants
+pub const LASER_CUBOID_WIDTH: f32 = 1.0;
+pub const LASER_CUBOID_HEIGHT: f32 = 1.0;
+pub const LASER_WIDTH: f32 = 5.0;
+pub const LASER_HEIGHT_FROM_GROUND: f32 = WINDOW_BOTTOM_Y + GRASS_HEIGHT + 50.0;
+
+// Floor constants
 pub const FLOOR_THICKNESS: f32 = 1.0;
 pub const PLAYER_VELOCITY_X: f32 = 400.0;
 pub const JUMP_VELOCITY: f32 = 30000.0;

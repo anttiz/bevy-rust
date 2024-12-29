@@ -4,7 +4,7 @@ use bevy::input::ButtonInput;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use std::time::Duration;
-use super::world::{spawn_world, ElevatorEntities, SkyBarEntities, StoneEntities};
+use super::world::{spawn_world, ElevatorEntities, SkyBarEntities, StoneEntities, LaserEntities};
 
 use super::constants::{
     ANIMATION_FPS, ANIMATION_FRAMES, PLAYER_SCALE, PLAYER_START_X, PLAYER_START_Y,
@@ -190,6 +190,7 @@ pub fn enter_next_level(
     mut stone_entities: ResMut<StoneEntities>,
     mut sky_bar_entities: ResMut<SkyBarEntities>,
     mut elevator_entities: ResMut<ElevatorEntities>,
+    mut laser_entities: ResMut<LaserEntities>,
     mut current_level: ResMut<CurrentLevel>,
 ) -> bool {
     if get_current_level() + 1 >= LEVELS.len() {
@@ -202,7 +203,8 @@ pub fn enter_next_level(
     // Reset the movement delta
     sprite_controller.translation = Some(Vec2::ZERO);
     // Spawn new world
-    spawn_world(commands, stone_entities, sky_bar_entities, elevator_entities);
+    spawn_world(commands, stone_entities, sky_bar_entities,
+        elevator_entities, laser_entities);
     current_level.level = get_current_level();
     return true;
 }

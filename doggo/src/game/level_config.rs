@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize}; // Add serde for JSON serialization/deseria
 use std::fs::File; // Import File for file handling
 use std::io::Read; // Import Read for reading file content
 
-const STARTING_LEVEL: usize = 0;
+const STARTING_LEVEL: usize = 9;
 
 use super::constants::GRASS_CENTER_Y;
 
@@ -25,6 +25,15 @@ pub struct BlockConfig {
     pub width: f32,    // Block width
     pub height: f32,   // Block height
 }
+
+#[derive(Clone, Serialize, Deserialize)]
+pub struct LaserConfig {
+    pub start_x: f32, // Laser start x position
+    pub length: f32,   // Laser length
+    pub laser_on_time_ms: f32, // Laser on time in milliseconds
+    pub laser_off_time_ms: f32, // Laser off time in milliseconds
+}
+
 #[derive(Clone, Serialize, Deserialize)]
 pub struct LevelConfig {
     pub stone_count: usize,             // Amount of stones in the level
@@ -35,6 +44,7 @@ pub struct LevelConfig {
     pub sky_bar_interval: f32,          // Sky bar interval in pixels
     pub elevators: Vec<ElevatorConfig>, // Array of elevators
     pub blocks: Vec<BlockConfig>,       // Array of blocks
+    pub lasers: Vec<LaserConfig>,       // Array of lasers
 }
 
 // Function to load level configurations from a JSON file
@@ -61,6 +71,7 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             sky_bar_interval: 0.0,
             elevators: vec![], // Initialize as empty vector
             blocks: vec![], // Initialize as empty vector
+            lasers: vec![], // Initialize as empty vector
         },
         LevelConfig {
             stone_count: 2,
@@ -71,6 +82,7 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             sky_bar_interval: 0.0,
             elevators: vec![], // Initialize as empty vector
             blocks: vec![], // Initialize as empty vector
+            lasers: vec![], // Initialize as empty vector
         },
         LevelConfig {
             stone_count: 2,
@@ -81,6 +93,7 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             sky_bar_interval: 0.0,
             elevators: vec![], // Initialize as empty vector
             blocks: vec![], // Initialize as empty vector
+            lasers: vec![], // Initialize as empty vector
         },
         LevelConfig {
             stone_count: 1,
@@ -91,6 +104,7 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             sky_bar_interval: 0.0,
             elevators: vec![], // Initialize as empty vector
             blocks: vec![], // Initialize as empty vector
+            lasers: vec![], // Initialize as empty vector
         },
         LevelConfig {
             stone_count: 2,
@@ -101,6 +115,7 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             sky_bar_interval: 0.0,
             elevators: vec![], // Initialize as empty vector
             blocks: vec![], // Initialize as empty vector
+            lasers: vec![], // Initialize as empty vector
         },
         LevelConfig {
             stone_count: 0,
@@ -111,6 +126,7 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             sky_bar_interval: 250.0,
             elevators: vec![], // Initialize as empty vector
             blocks: vec![], // Initialize as empty vector
+            lasers: vec![], // Initialize as empty vector
         },
         LevelConfig {
             stone_count: 1,
@@ -121,7 +137,9 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             sky_bar_interval: 300.0,
             elevators: vec![], // Initialize as empty vector
             blocks: vec![], // Initialize as empty vector
+            lasers: vec![], // Initialize as empty vector
         },
+        // initialise lasers to all below
         LevelConfig {
             stone_count: 2,
             stones_moving: true,
@@ -131,6 +149,7 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             sky_bar_interval: 300.0,
             elevators: vec![], // Initialize as empty vector
             blocks: vec![], // Initialize as empty vector
+            lasers: vec![], // Initialize as empty vector
         },
         LevelConfig {
             stone_count: 0,
@@ -160,16 +179,26 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
                     width: 100.0,
                     height: 550.0,
                 },
-                /*
-                BlockConfig {
-                    start_x: 200.0,
-                    start_y: GRASS_TOP_Y + 100.0,
-                    width: 150.0,
-                    height: 10.0,
-                },*/
             ],
+            lasers: vec![], // Initialize as empty vector
         },
-    ]
+        LevelConfig {
+            stone_count: 0,
+            stones_moving: false,
+            stone_interval: 0.0,
+            stone_speed: 0.0,
+            sky_bars: 0,
+            sky_bar_interval: 0.0,
+            elevators: vec![],
+            blocks: vec![],
+            lasers: vec![LaserConfig {
+                start_x: 100.0,
+                length: 500.0,
+                laser_on_time_ms: 1000.0,
+                laser_off_time_ms: 1000.0,
+            }],
+        },
+        ]
 }
 
 // Define a global variable for the current level

@@ -14,16 +14,27 @@ pub fn collision_detection(
 }
 
 // New function to check for collision
-fn is_colliding_with_deadly_item(player_x: f32, player_y: f32, deadly_item_x: f32, deadly_item_y: f32) -> bool {
-    let deadly_item_lower_y = deadly_item_y + 44.0;
-    let deadly_item_upper_y = deadly_item_lower_y + STONE_HEIGHT;
-    let deadly_item_right_x = deadly_item_x + SPRITE_TILE_WIDTH;
-    let deadly_item_left_x = deadly_item_x;
+fn is_colliding_with_deadly_item(player_x: f32, player_y: f32,
+    deadly_item_center_x: f32, deadly_item_center_y: f32,
+    deadly_item_width: f32, deadly_item_height: f32) -> bool {
+    let player_height = 128.0;
+    let player_lower_y = player_y - player_height / 2.0;
+    let player_upper_y = player_lower_y + player_height;
+    let player_width = 90.0;
+    let player_left_x = player_x - player_width / 2.0;
+    let player_right_x = player_left_x + player_width;
 
-    player_x + SPRITE_TILE_WIDTH > deadly_item_left_x
-        && player_x < deadly_item_right_x
-        && player_y > deadly_item_lower_y
-        && player_y < deadly_item_upper_y
+    let deadly_item_lower_y = deadly_item_center_y - deadly_item_height / 2.0;
+    let deadly_item_upper_y = deadly_item_center_y + deadly_item_height / 2.0;
+    let deadly_item_right_x = deadly_item_center_x + deadly_item_width / 2.0;
+    let deadly_item_left_x = deadly_item_center_x - deadly_item_width / 2.0;
+
+    // println!("Player bounding box: {}, {}, {}, {}", player_left_x, player_right_x, player_lower_y, player_upper_y);
+    //println!("Deadly item bounding box: {}, {}, {}, {}", deadly_item_left_x, deadly_item_right_x, deadly_item_lower_y, deadly_item_upper_y);
+    player_right_x > deadly_item_left_x
+        && player_left_x < deadly_item_right_x
+        && player_upper_y > deadly_item_lower_y
+        && player_lower_y < deadly_item_upper_y
 }
 
 fn check_deadly_item_collision(
@@ -34,11 +45,12 @@ fn check_deadly_item_collision(
     let player_x = player_transform.translation.x;
     let player_y = player_transform.translation.y;
     for (deadly_item, deadly_item_transform) in deadly_item_query.iter() {
-        let deadly_item_x = deadly_item_transform.translation.x;
-        let deadly_item_y = deadly_item_transform.translation.y;
-
-        if is_colliding_with_deadly_item(player_x, player_y, deadly_item_x, deadly_item_y) {
-            println!("Player collided with item: {}, {}", player_x, deadly_item_x);
+        let deadly_item_center_x = deadly_item_transform.translation.x;
+        let deadly_item_center_y = deadly_item_transform.translation.y;
+        if is_colliding_with_deadly_item(player_x, player_y, deadly_item_center_x, deadly_item_center_y,
+            deadly_item.width, deadly_item.height) {
+            println!("Player collided with item: {}, {}", player_x, deadly_item_center_x);
+            println!("Player y: {}, Deadly item y: {}", player_y, deadly_item_center_y);
             player_sprite.health = 0;
             restart_level(player_transform);
         }

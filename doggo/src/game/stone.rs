@@ -49,7 +49,10 @@ pub fn spawn_stones(
                 STONE_CUBOID_WIDTH / 2.0,
                 STONE_CUBOID_HEIGHT / 2.0,
             ))
-            .insert(DeadlyItem)
+            .insert(DeadlyItem {
+                width: STONE_WIDTH,
+                height: STONE_HEIGHT,
+            })
             .insert(Stone {
                 speed: if level_config.stones_moving {
                     level_config.stone_speed
