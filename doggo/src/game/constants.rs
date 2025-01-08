@@ -52,29 +52,43 @@ pub const COLOR_SKY: Color = Color::srgba(0.0, 0.0, 255.0, 255.0);
 // lime green
 pub const COLOR_GRASS: Color = Color::srgba(0.0, 255.0, 0.0, 255.0);
 
+// grass constants
+pub const GRASS_Z: f32 = 0.0;
+
 pub const STONE_WIDTH: f32 = 30.0;
 pub const STONE_HEIGHT: f32 = 30.0;
 pub const STONE_CUBOID_WIDTH: f32 = 1.0;
 pub const STONE_CUBOID_HEIGHT: f32 = 1.0;
 pub const STONE_SPEED: f32 = 100.0;
-
+pub const STONE_Z: f32 = 1.0;
 pub const SKY_BAR_WIDTH: f32 = 30.0;
 pub const SKY_BAR_START_Y: f32 = 0.0;
 pub const SKY_BAR_CUBOID_WIDTH: f32 = 1.0;
 pub const SKY_BAR_CUBOID_HEIGHT: f32 = 1.0;
 // light brown
 pub const SKY_BAR_COLOR: Color = Color::srgba(0.5, 0.4, 0.3, 255.0);
+pub const SKY_BAR_Z: f32 = 1.0;
 
 // Elevator constants
 pub const ELEVATOR_HEIGHT: f32 = 30.0;
 pub const ELEVATOR_WIDTH: f32 = 4.0 * ELEVATOR_HEIGHT;
 pub const ELEVATOR_COLOR: Color = Color::srgba(0.5, 0.4, 0.3, 255.0);
+pub const ELEVATOR_Z: f32 = 1.0;
 
 // Spritesheet constants
 pub const SPRITE_TILE_WIDTH: f32 = 64.0;
 pub const SPRITE_TILE_HEIGHT: f32 = 64.0;
 pub const SPRITESHEET_COLS: u32 = 12;
 pub const SPRITESHEET_ROWS: u32 = 8;
+
+// block constants
+pub const BLOCK_Z: f32 = 1.0;
+
+// laser constants
+pub const LASER_Z: f32 = 1.0;
+
+// sky constants
+pub const SKY_Z: f32 = 0.0;
 
 // animation constants
 pub const ANIMATION_FPS: u8 = 10;

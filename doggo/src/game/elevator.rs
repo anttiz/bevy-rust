@@ -1,3 +1,4 @@
+use crate::game::constants::*;
 use crate::game::level_config::LevelConfig;
 use crate::game::world::ElevatorEntities;
 use crate::{
@@ -53,7 +54,7 @@ pub fn spawn_elevators(
     for (index, elevator) in level_config.elevators.iter().enumerate() {
         let entity = spawn_elevator(
             commands,
-            Vec3::new(elevator.start_x, elevator.start_y, 0.0),
+            Vec3::new(elevator.start_x, elevator.start_y, ELEVATOR_Z),
             index,
         );
         elevator_entities.0.push(entity);

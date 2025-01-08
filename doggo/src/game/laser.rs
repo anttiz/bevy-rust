@@ -1,5 +1,3 @@
-use std::time::Duration;
-
 use crate::game::constants::*;
 use crate::game::level_config::LevelConfig;
 use bevy::prelude::*;
@@ -46,7 +44,7 @@ pub fn spawn_lasers(
                     ..Default::default()
                 },
                 transform: Transform {
-                    translation: Vec3::new(x_pos, LASER_HEIGHT_FROM_GROUND, 0.0),
+                    translation: Vec3::new(x_pos, LASER_HEIGHT_FROM_GROUND, LASER_Z),
                     scale: Vec3::new(length, LASER_WIDTH, 1.0),
                     ..Default::default()
                 },

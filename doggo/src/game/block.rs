@@ -17,7 +17,7 @@ pub fn spawn_block(commands: &mut Commands, position: Vec3, width: f32, height: 
             },
             transform: Transform {
                 translation: position,
-                scale: Vec3::new(width, height, 1.0),
+                scale: Vec3::new(width, height, BLOCK_Z),
                 ..Default::default()
             },
             ..Default::default()
@@ -33,7 +33,7 @@ pub fn spawn_blocks(commands: &mut Commands, level_config: &LevelConfig, block_e
     for block in &level_config.blocks {
         let entity = spawn_block(
             commands,
-            Vec3::new(block.start_x, block.start_y, 0.0),
+            Vec3::new(block.start_x, block.start_y, 1.0),
             block.width,
             block.height,
         );

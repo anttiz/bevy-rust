@@ -37,7 +37,7 @@ fn setup_sky_bar(commands: &mut Commands, x_pos: f32) -> Entity {
                 ..Default::default()
             },
             transform: Transform {
-                translation: Vec3::new(x_pos, SKY_BAR_START_Y + SKY_BAR_HEIGHT / 2.0, 0.0),
+                translation: Vec3::new(x_pos, SKY_BAR_START_Y + SKY_BAR_HEIGHT / 2.0, SKY_BAR_Z),
                 scale: Vec3::new(SKY_BAR_WIDTH, SKY_BAR_HEIGHT, 1.0),
                 ..Default::default()
             },
