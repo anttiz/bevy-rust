@@ -22,6 +22,7 @@ pub const LASER_CUBOID_WIDTH: f32 = 1.0;
 pub const LASER_CUBOID_HEIGHT: f32 = 1.0;
 pub const LASER_WIDTH: f32 = 5.0;
 pub const LASER_HEIGHT_FROM_GROUND: f32 = WINDOW_BOTTOM_Y + GRASS_HEIGHT + 50.0;
+pub const LASER_INITIAL_TIME_SECS: f32 = 0.5;
 
 // Floor constants
 pub const FLOOR_THICKNESS: f32 = 1.0;

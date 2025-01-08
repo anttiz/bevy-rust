@@ -10,7 +10,7 @@ use crate::game::{
     level_config::{get_current_level, set_current_level, LEVELS},
     player_sprite::{enter_next_level, PlayerSprite},
     stone::Stone,
-    world::{respawn_world, ElevatorEntities, LaserEntities, SkyBarEntities, StoneEntities},
+    world::{respawn_world, BlockEntities, ElevatorEntities, LaserEntities, SkyBarEntities, StoneEntities},
     CurrentLevel,
 };
 
@@ -28,6 +28,7 @@ pub fn movement(
     mut current_level: ResMut<CurrentLevel>,
     mut elevator_entities: ResMut<ElevatorEntities>,
     mut laser_entities: ResMut<LaserEntities>,
+    mut block_entities: ResMut<BlockEntities>,
 ) {
     // Handle PlayerSprite movement
     for (mut sprite_controller, mut player_sprite, mut transform) in sprite_query.iter_mut() {
@@ -41,6 +42,7 @@ pub fn movement(
                 sky_bar_entities,
                 elevator_entities,
                 laser_entities,
+                block_entities,
             );
             player_sprite.health = 100;
             return;
@@ -86,6 +88,7 @@ pub fn movement(
                 sky_bar_entities,
                 elevator_entities,
                 laser_entities,
+                block_entities,
                 current_level,
             );
             return;

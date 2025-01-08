@@ -10,7 +10,7 @@ use game::player_sprite::trigger_animation;
 use game::player_sprite::execute_animations;
 use bevy::input::common_conditions::input_just_pressed;
 use game::setup;
-use game::world::{LaserEntities, StoneEntities, SkyBarEntities, ElevatorEntities};
+use game::world::{BlockEntities, LaserEntities, StoneEntities, SkyBarEntities, ElevatorEntities};
 use game::CurrentLevel;
 use systems::ground_detection::ground_detection;
 use systems::movement::movement;
@@ -25,6 +25,7 @@ fn main() {
         .insert_resource(SkyBarEntities(Vec::new()))
         .insert_resource(ElevatorEntities(Vec::new()))
         .insert_resource(LaserEntities(Vec::new()))
+        .insert_resource(BlockEntities(Vec::new()))
         .insert_resource(CurrentLevel { level: get_current_level() })
         .add_plugins(
             DefaultPlugins

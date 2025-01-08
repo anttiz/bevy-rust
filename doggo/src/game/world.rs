@@ -19,6 +19,8 @@ pub struct SkyBarEntities(pub Vec<Entity>);
 pub struct ElevatorEntities(pub Vec<Entity>);
 #[derive(Resource)]
 pub struct LaserEntities(pub Vec<Entity>);
+#[derive(Resource)]
+pub struct BlockEntities(pub Vec<Entity>);
 
 pub fn spawn_world(
     mut commands: Commands,
@@ -26,9 +28,10 @@ pub fn spawn_world(
     mut sky_bar_entities: ResMut<SkyBarEntities>,
     mut elevator_entities: ResMut<ElevatorEntities>,
     mut laser_entities: ResMut<LaserEntities>,
+    mut block_entities: ResMut<BlockEntities>,
 ) {
     despawn_previous_entities(&mut commands, &mut stone_entities,
-        &mut sky_bar_entities, &mut laser_entities);
+        &mut sky_bar_entities, &mut laser_entities, &mut elevator_entities, &mut block_entities);
 
     let current_level = get_current_level();
     let level_config = &LEVELS[current_level];
@@ -37,7 +40,7 @@ pub fn spawn_world(
     spawn_grass(&mut commands);
     spawn_floor(&mut commands);
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
-    spawn_blocks(&mut commands, level_config);
+    spawn_blocks(&mut commands, level_config, &mut block_entities);
     spawn_elevators(&mut commands, level_config, &mut elevator_entities);
     spawn_lasers(&mut commands, level_config, &mut laser_entities);
 }
@@ -47,6 +50,8 @@ pub fn despawn_previous_entities(
     stone_entities: &mut ResMut<StoneEntities>,
     sky_bar_entities: &mut ResMut<SkyBarEntities>,
     laser_entities: &mut ResMut<LaserEntities>,
+    elevator_entities: &mut ResMut<ElevatorEntities>,
+    block_entities: &mut ResMut<BlockEntities>,
 ) {
     // Despawn previous stones
     for entity in stone_entities.0.iter() {
@@ -65,6 +70,18 @@ pub fn despawn_previous_entities(
         commands.entity(*entity).despawn();
     }
     laser_entities.0.clear(); // Clear the vector for the new level
+
+    // Despawn previous elevators
+    for entity in elevator_entities.0.iter() {
+        commands.entity(*entity).despawn();
+    }
+    elevator_entities.0.clear(); // Clear the vector for the new level
+
+    // Despawn previous blocks
+    for entity in block_entities.0.iter() {
+        commands.entity(*entity).despawn();
+    }
+    block_entities.0.clear(); // Clear the vector for the new level
 }
 
 pub fn respawn_world(
@@ -73,11 +90,12 @@ pub fn respawn_world(
     mut sky_bar_entities: ResMut<SkyBarEntities>,
     mut elevator_entities: ResMut<ElevatorEntities>,
     mut laser_entities: ResMut<LaserEntities>,
+    mut block_entities: ResMut<BlockEntities>,
 ) {
     let current_level = get_current_level();
     let level_config = &LEVELS[current_level];
     despawn_previous_entities(&mut commands, &mut stone_entities,
-        &mut sky_bar_entities, &mut laser_entities);
+        &mut sky_bar_entities, &mut laser_entities, &mut elevator_entities, &mut block_entities);
     spawn_stones(&mut commands, level_config, &mut stone_entities);
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
     spawn_elevators(&mut commands, level_config, &mut elevator_entities);

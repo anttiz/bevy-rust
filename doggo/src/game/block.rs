@@ -3,11 +3,13 @@ use crate::game::level_config::LevelConfig;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
+use super::world::BlockEntities;
+
 #[derive(Component)]
 pub struct Block;
 
-pub fn spawn_block(commands: &mut Commands, position: Vec3, width: f32, height: f32) {
-    commands
+pub fn spawn_block(commands: &mut Commands, position: Vec3, width: f32, height: f32) -> Entity {
+    let entity = commands
         .spawn(SpriteBundle {
             sprite: Sprite {
                 color: Color::srgba(0.5, 0.5, 0.5, 1.0), // Block color
@@ -22,16 +24,19 @@ pub fn spawn_block(commands: &mut Commands, position: Vec3, width: f32, height: 
         })
         .insert(RigidBody::Fixed)
         .insert(Collider::cuboid(0.5, 0.5)) // Set collider
-        .insert(Block);
+        .insert(Block)
+        .id();
+    return entity;
 }
 
-pub fn spawn_blocks(commands: &mut Commands, level_config: &LevelConfig) {
+pub fn spawn_blocks(commands: &mut Commands, level_config: &LevelConfig, block_entities: &mut ResMut<BlockEntities>) {
     for block in &level_config.blocks {
-        spawn_block(
+        let entity = spawn_block(
             commands,
             Vec3::new(block.start_x, block.start_y, 0.0),
             block.width,
             block.height,
         );
+        block_entities.0.push(entity);
     }
 }

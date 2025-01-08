@@ -11,7 +11,7 @@ pub mod block;
 pub mod sky;
 pub mod laser;
 use bevy::prelude::*;
-use world::{ElevatorEntities, LaserEntities, StoneEntities, SkyBarEntities};
+use world::{BlockEntities, ElevatorEntities, LaserEntities, SkyBarEntities, StoneEntities};
 
 
 
@@ -28,10 +28,11 @@ pub fn setup(
     sky_bar_entities: ResMut<SkyBarEntities>,
     elevator_entities: ResMut<ElevatorEntities>,
     laser_entities: ResMut<LaserEntities>,
+    block_entities: ResMut<BlockEntities>,
 ) {
     commands.spawn(Camera2dBundle::default());
     spawn_player_sprite(&mut commands, asset_server, texture_atlas_layouts);
-    spawn_world(commands, stone_entities, sky_bar_entities, elevator_entities, laser_entities);
+    spawn_world(commands, stone_entities, sky_bar_entities, elevator_entities, laser_entities, block_entities);
 }
 
 #[derive(Resource)]

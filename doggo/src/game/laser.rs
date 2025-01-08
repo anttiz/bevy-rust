@@ -62,7 +62,7 @@ pub fn spawn_lasers(
                 laser_on_time_ms: level_config.lasers[i].laser_on_time_ms,
                 laser_off_time_ms: level_config.lasers[i].laser_off_time_ms,
                 start_x: level_config.lasers[i].start_x,
-                timer: Timer::from_seconds(2.0, TimerMode::Once),
+                timer: Timer::from_seconds(LASER_INITIAL_TIME_SECS, TimerMode::Once),
                 is_visible: true,
             })
             .id();
@@ -85,17 +85,22 @@ pub fn update_laser_visibility(
             } else {
                 laser.laser_off_time_ms
             } as u64;
+
+            // Ensure visibility is updated correctly
             *visibility = if laser.is_visible { Visibility::Inherited } else { Visibility::Hidden };
 
             // Update DeadlyItem based on visibility
             if laser.is_visible {
+                // println!("Laser is visible {}", laser.length);
                 deadly_item.width = laser.length; // Set to deadly dimensions
                 deadly_item.height = LASER_WIDTH;
             } else {
+                // println!("Laser is not visible");
                 deadly_item.width = 0.0; // Set to non-deadly dimensions
                 deadly_item.height = 0.0;
             }
 
+            // Reset the timer with the new duration
             laser.timer = Timer::from_seconds(new_duration as f32 / 1000.0, TimerMode::Once);
         }
     }
