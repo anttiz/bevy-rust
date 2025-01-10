@@ -16,12 +16,8 @@ pub fn spawn_sky_bars(
     level_config: &LevelConfig,
     sky_bar_entities: &mut ResMut<SkyBarEntities>,
 ) {
-    // Calculate the starting position to center the stones
-    let total_width = (level_config.sky_bars as f32 - 1.0) * level_config.sky_bar_interval;
-    let start_x_pos = -total_width / 2.0;
-
-    for i in 0..level_config.sky_bars {
-        let x_pos = start_x_pos + i as f32 * level_config.sky_bar_interval; // Adjusted position
+    for sky_bar in &level_config.sky_bars {
+        let x_pos = sky_bar.start_x;
         let entity = setup_sky_bar(commands, x_pos);
         sky_bar_entities.0.push(entity);
     }
