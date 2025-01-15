@@ -1,10 +1,10 @@
 use crate::game::constants::*;
-// use crate::game::deadly_item::DeadlyItem;
 use crate::game::level_config::LevelConfig;
 use crate::game::player_sprite::PlayerSprite;
 use crate::game::world::SkyBarEntities;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
+
 // Define the SkyBar component
 #[derive(Component)]
 pub struct SkyBar {
@@ -44,12 +44,11 @@ fn setup_sky_bar(commands: &mut Commands, x_pos: f32) -> Entity {
             SKY_BAR_CUBOID_WIDTH / 2.0,
             SKY_BAR_CUBOID_HEIGHT / 2.0,
         ))
-        // .insert(DeadlyItem)
         .insert(SkyBar {
-        // Initialize properties if needed
-    })
+            // Initialize properties if needed
+        })
         .id();
-    return entity;
+    entity
 }
 
 // Collision detection logic

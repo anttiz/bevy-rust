@@ -9,7 +9,6 @@ pub fn ground_detection(
 ) {
     // Handle PlayerSprite ground detection
     for (mut player_sprite, transform) in sprite_query.iter_mut() {
-        // player_sprite.on_ground = false; // Reset on_ground status
         let mut i = 0;
         // Check for ground collision
         for (ground_collider, ground_transform) in ground_query.iter() {

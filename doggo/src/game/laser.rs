@@ -40,7 +40,7 @@ pub fn spawn_lasers(
         let entity = commands
             .spawn(SpriteBundle {
                 sprite: Sprite {
-                    color: Color::srgba(1.0, 0.0, 1.0, 1.0),
+                    color: LASER_COLOR,
                     ..Default::default()
                 },
                 transform: Transform {

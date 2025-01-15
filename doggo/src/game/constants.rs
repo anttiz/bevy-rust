@@ -83,9 +83,11 @@ pub const SPRITESHEET_ROWS: u32 = 8;
 
 // block constants
 pub const BLOCK_Z: f32 = 1.0;
+pub const BLOCK_COLOR: Color = Color::srgba(0.5, 0.5, 0.5, 1.0);
 
 // laser constants
 pub const LASER_Z: f32 = 1.0;
+pub const LASER_COLOR: Color = Color::srgba(1.0, 0.0, 1.0, 1.0);
 
 // sky constants
 pub const SKY_Z: f32 = 0.0;

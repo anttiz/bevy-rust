@@ -10,7 +10,10 @@ use crate::game::{
     level_config::{get_current_level, set_current_level, LEVELS},
     player_sprite::{enter_next_level, PlayerSprite},
     stone::Stone,
-    world::{respawn_world, BlockEntities, ElevatorEntities, LaserEntities, SkyBarEntities, StoneEntities},
+    world::{
+        respawn_world, BlockEntities, ElevatorEntities, LaserEntities, SkyBarEntities,
+        StoneEntities,
+    },
     CurrentLevel,
 };
 
@@ -47,7 +50,6 @@ pub fn movement(
             player_sprite.health = 100;
             return;
         }
-
         if !player_sprite.on_ground {
             player_sprite.vertical_velocity += GRAVITY_REDUCED * time.delta_seconds();
         } else {
@@ -62,10 +64,12 @@ pub fn movement(
             translation.x += time.delta_seconds() * PLAYER_VELOCITY_X * -1.0;
         }
 
-        if input.just_pressed(KeyCode::Space) && player_sprite.on_ground {
+        if input.just_pressed(KeyCode::Space)
+            && player_sprite.on_ground
+            && player_sprite.vertical_velocity == 0.0
+        {
             player_sprite.vertical_velocity += JUMP_VELOCITY;
             player_sprite.on_ground = false;
-            // println!("Jumped");
         }
 
         translation.y += player_sprite.vertical_velocity * time.delta_seconds();

@@ -12,7 +12,7 @@ pub fn spawn_block(commands: &mut Commands, position: Vec3, width: f32, height: 
     let entity = commands
         .spawn(SpriteBundle {
             sprite: Sprite {
-                color: Color::srgba(0.5, 0.5, 0.5, 1.0), // Block color
+                color: BLOCK_COLOR,
                 ..Default::default()
             },
             transform: Transform {
