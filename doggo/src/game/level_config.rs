@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize}; // Add serde for JSON serialization/deseria
 use std::fs::File; // Import File for file handling
 use std::io::Read; // Import Read for reading file content
 
-const STARTING_LEVEL: usize = 6;
+const STARTING_LEVEL: usize = 0;
 
 use super::constants::GRASS_CENTER_Y;
 
