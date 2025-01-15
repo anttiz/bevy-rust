@@ -38,7 +38,7 @@ pub fn spawn_world(
     spawn_sky(&mut commands);
     spawn_stones(&mut commands, level_config, &mut stone_entities);
     spawn_grass(&mut commands);
-    spawn_floor(&mut commands);
+    // spawn_floor(&mut commands);
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
     spawn_blocks(&mut commands, level_config, &mut block_entities);
     spawn_elevators(&mut commands, level_config, &mut elevator_entities);
@@ -110,7 +110,7 @@ fn spawn_floor(commands: &mut Commands) {
                 ..Default::default()
             },
             transform: Transform {
-                translation: Vec3::new(0.0, GRASS_CENTER_Y + 70.0, 0.0),
+                translation: Vec3::new(0.0, GRASS_CENTER_Y + 76.0, 0.0),
                 scale: Vec3::new(WINDOW_WIDTH, FLOOR_THICKNESS, 1.0),
                 ..Default::default()
             },

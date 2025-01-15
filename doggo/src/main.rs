@@ -15,6 +15,7 @@ use game::CurrentLevel;
 use systems::ground_detection::ground_detection;
 use systems::movement::movement;
 use systems::collision_detection::collision_detection;
+use systems::collision_detection::collision_detection_with_collider;
 use systems::movement::move_stones;
 use systems::ui::{setup_level_ui, update_level_ui};
 use systems::movement::move_elevators;
@@ -45,6 +46,7 @@ fn main() {
             RapierDebugRenderPlugin::default(),
         ))
         .add_systems(Startup, setup)
+        .add_systems(Update, collision_detection_with_collider)
         .add_systems(Update, collision_detection)
         .add_systems(Update, movement)
         .add_systems(Update, ground_detection)

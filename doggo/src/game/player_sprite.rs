@@ -187,11 +187,11 @@ pub fn enter_next_level(
     commands: Commands,
     mut sprite_controller: Mut<'_, KinematicCharacterController>,
     mut transform: Mut<'_, Transform>,
-    mut stone_entities: ResMut<StoneEntities>,
-    mut sky_bar_entities: ResMut<SkyBarEntities>,
-    mut elevator_entities: ResMut<ElevatorEntities>,
-    mut laser_entities: ResMut<LaserEntities>,
-    mut block_entities: ResMut<BlockEntities>,
+    stone_entities: ResMut<StoneEntities>,
+    sky_bar_entities: ResMut<SkyBarEntities>,
+    elevator_entities: ResMut<ElevatorEntities>,
+    laser_entities: ResMut<LaserEntities>,
+    block_entities: ResMut<BlockEntities>,
     mut current_level: ResMut<CurrentLevel>,
 ) -> bool {
     if get_current_level() + 1 >= LEVELS.len() {

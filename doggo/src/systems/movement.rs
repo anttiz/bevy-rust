@@ -3,11 +3,11 @@ use bevy_rapier2d::prelude::*;
 
 use crate::game::{
     constants::{
-        COLLISION_THRESHOLD, GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_START_X,
+        GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_START_X,
         PLAYER_START_Y, PLAYER_VELOCITY_X, RIGHT_BOUNDARY, STONE_WIDTH,
     },
     elevator::Elevator,
-    level_config::{get_current_level, set_current_level, LEVELS},
+    level_config::{get_current_level, LEVELS},
     player_sprite::{enter_next_level, PlayerSprite},
     stone::Stone,
     world::{
@@ -18,7 +18,7 @@ use crate::game::{
 };
 
 pub fn movement(
-    mut commands: Commands,
+    commands: Commands,
     input: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
     mut sprite_query: Query<(
@@ -26,12 +26,12 @@ pub fn movement(
         &mut PlayerSprite,
         &mut Transform,
     )>,
-    mut stone_entities: ResMut<StoneEntities>,
-    mut sky_bar_entities: ResMut<SkyBarEntities>,
-    mut current_level: ResMut<CurrentLevel>,
-    mut elevator_entities: ResMut<ElevatorEntities>,
-    mut laser_entities: ResMut<LaserEntities>,
-    mut block_entities: ResMut<BlockEntities>,
+    stone_entities: ResMut<StoneEntities>,
+    sky_bar_entities: ResMut<SkyBarEntities>,
+    current_level: ResMut<CurrentLevel>,
+    elevator_entities: ResMut<ElevatorEntities>,
+    laser_entities: ResMut<LaserEntities>,
+    block_entities: ResMut<BlockEntities>,
 ) {
     // Handle PlayerSprite movement
     for (mut sprite_controller, mut player_sprite, mut transform) in sprite_query.iter_mut() {

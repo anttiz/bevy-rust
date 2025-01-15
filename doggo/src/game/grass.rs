@@ -1,5 +1,6 @@
 use crate::game::constants::*;
 use bevy::prelude::*;
+use bevy_rapier2d::prelude::*;
 
 pub fn spawn_grass(commands: &mut Commands) {
     commands.spawn(SpriteBundle {
@@ -17,5 +18,7 @@ pub fn spawn_grass(commands: &mut Commands) {
             ..Default::default()
         },
         ..Default::default()
-    });
+    })
+    .insert(RigidBody::Fixed)
+    .insert(Collider::cuboid(0.5, 0.5));
 }

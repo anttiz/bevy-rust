@@ -1,7 +1,11 @@
-use crate::game::constants::{SPRITE_TILE_HEIGHT, SPRITE_TILE_WIDTH, STONE_HEIGHT};
 use crate::game::{player_sprite::PlayerSprite, deadly_item::DeadlyItem};
 use crate::systems::movement::restart_level;
 use bevy::prelude::*;
+use bevy_rapier2d::prelude::{Collider, CollisionEvent};
+use bevy::ecs::component::Component;
+
+#[derive(Component)]
+pub struct OnGround;
 
 pub fn collision_detection(
     mut sprite_query: Query<(&mut PlayerSprite, &mut Transform)>,
@@ -56,6 +60,51 @@ fn check_deadly_item_collision(
             println!("Player y: {}, Deadly item y: {}", player_y, deadly_item_center_y);
             player_sprite.health = 0;
             restart_level(player_transform);
+        }
+    }
+}
+
+pub fn collision_detection_with_collider(
+    mut commands: Commands,
+    mut collision_events: EventReader<CollisionEvent>,
+    player_query: Query<(Entity, &PlayerSprite)>,
+    collider_query: Query<&Collider>,
+) {
+    for event in collision_events.read() {
+        match event {
+            CollisionEvent::Started(entity1, entity2, _) => {
+                // Check if one of the entities is the horse
+                if let Ok((horse_entity, _)) = player_query.get(*entity1) {
+                    // Check if the other entity is a ground collider
+                    if collider_query.get(*entity2).is_ok() {
+                        // Handle the collision (e.g., set on_ground to true)
+                        println!("Player collided with ground");
+                        commands.entity(horse_entity).insert(OnGround);
+                    }
+                } else if let Ok((horse_entity, _)) = player_query.get(*entity2) {
+                    // Check if the other entity is a ground collider
+                    if collider_query.get(*entity1).is_ok() {
+                        // Handle the collision (e.g., set on_ground to true)
+                        commands.entity(horse_entity).insert(OnGround);
+                    }
+                }
+            }
+            CollisionEvent::Stopped(entity1, entity2, _) => {
+                // Check if one of the entities is the horse
+                if let Ok((horse_entity, _)) = player_query.get(*entity1) {
+                    // Check if the other entity is a ground collider
+                    if collider_query.get(*entity2).is_ok() {
+                        // Handle the collision end (e.g., set on_ground to false)
+                        commands.entity(horse_entity).remove::<OnGround>();
+                    }
+                } else if let Ok((horse_entity, _)) = player_query.get(*entity2) {
+                    // Check if the other entity is a ground collider
+                    if collider_query.get(*entity1).is_ok() {
+                        // Handle the collision end (e.g., set on_ground to false)
+                        commands.entity(horse_entity).remove::<OnGround>();
+                    }
+                }
+            }
         }
     }
 }
