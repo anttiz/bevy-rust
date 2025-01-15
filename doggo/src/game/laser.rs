@@ -11,7 +11,7 @@ pub struct Laser {
     pub length: f32,
     pub laser_on_time_ms: f32,
     pub laser_off_time_ms: f32,
-    pub start_x: f32,
+    // pub start_x: f32,
     pub timer: Timer,
     pub is_visible: bool,
 }
@@ -22,7 +22,7 @@ impl Default for Laser {
             length: 0.0,
             laser_on_time_ms: 1000.0,
             laser_off_time_ms: 1000.0,
-            start_x: 0.0,
+            // start_x: 0.0,
             timer: Timer::from_seconds(1.0, TimerMode::Once),
             is_visible: true,
         }
@@ -59,7 +59,7 @@ pub fn spawn_lasers(
                 length: level_config.lasers[i].length,
                 laser_on_time_ms: level_config.lasers[i].laser_on_time_ms,
                 laser_off_time_ms: level_config.lasers[i].laser_off_time_ms,
-                start_x: level_config.lasers[i].start_x,
+                // start_x: level_config.lasers[i].start_x,
                 timer: Timer::from_seconds(LASER_INITIAL_TIME_SECS, TimerMode::Once),
                 is_visible: true,
             })

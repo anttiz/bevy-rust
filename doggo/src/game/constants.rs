@@ -18,14 +18,11 @@ pub const SKY_HEIGHT: f32 = WINDOW_HEIGHT * SKY_HEIGHT_PERCENT / 100.0;
 pub const SKY_CENTER_Y: f32 = WINDOW_TOP_Y - SKY_HEIGHT / 2.0;
 
 // Laser constants
-pub const LASER_CUBOID_WIDTH: f32 = 1.0;
-pub const LASER_CUBOID_HEIGHT: f32 = 1.0;
 pub const LASER_WIDTH: f32 = 5.0;
 pub const LASER_HEIGHT_FROM_GROUND: f32 = WINDOW_BOTTOM_Y + GRASS_HEIGHT + 50.0;
 pub const LASER_INITIAL_TIME_SECS: f32 = 0.5;
 
 // Floor constants
-pub const FLOOR_THICKNESS: f32 = 1.0;
 pub const PLAYER_VELOCITY_X: f32 = 400.0;
 pub const JUMP_VELOCITY: f32 = 30000.0;
 pub const GRAVITY_REDUCTION_FACTOR: f32 = 0.1;
@@ -39,12 +36,7 @@ pub const PLAYER_START_X: f32 = LEFT_BOUNDARY + 1.0;
 pub const PLAYER_START_Y: f32 = 0.0; // Starting Y position of the player
 pub const PLAYER_WIDTH: f32 = 30.0; // Width of the player
 pub const PLAYER_SCALE: f32 = 2.0; // Scale of the player
-pub const COLLISION_THRESHOLD: f32 = 80.0; // Threshold for collision detection
 // Colors
-// pink
-pub const COLOR_PLAYER: Color = Color::srgba(255.0, 0.0, 255.0, 255.0);
-// black
-pub const COLOR_FLOOR: Color = Color::srgb(0.45, 0.55, 0.66);
 // black
 pub const COLOR_PLATFORM: Color = Color::srgba(0.0, 0.0, 0.0, 255.0);
 // blue

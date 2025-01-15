@@ -20,8 +20,8 @@ use self::{player_sprite::spawn_player as spawn_player_sprite, world::spawn_worl
 // for meshes and materials
 pub fn setup(
     mut commands: Commands,
-    meshes: ResMut<Assets<Mesh>>,
-    materials: ResMut<Assets<ColorMaterial>>,
+    _meshes: ResMut<Assets<Mesh>>,
+    _materials: ResMut<Assets<ColorMaterial>>,
     asset_server: Res<AssetServer>,
     texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     stone_entities: ResMut<StoneEntities>,

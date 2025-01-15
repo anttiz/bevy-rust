@@ -255,14 +255,6 @@ lazy_static! {
     pub static ref LEVELS: Vec<LevelConfig> = get_level_configs(); // Load from either JSON or hardcoded values
 }
 
-// Example function to get elevator configurations for a level
-pub fn get_elevator_configs(level_index: usize) -> Option<Vec<ElevatorConfig>> {
-    if level_index >= LEVELS.len() {
-        return None; // Return None if the level index is out of bounds
-    }
-    Some(LEVELS[level_index].elevators.clone()) // Return the elevators for the specified level
-}
-
 // Example function to set the current level
 pub fn set_current_level(level_index: usize) {
     let mut current_level = CURRENT_LEVEL.lock().unwrap(); // Access CURRENT_LEVEL directly
@@ -276,10 +268,4 @@ pub fn set_current_level(level_index: usize) {
 pub fn get_current_level() -> usize {
     let current_level = CURRENT_LEVEL.lock().unwrap(); // Access CURRENT_LEVEL directly
     *current_level // Return the current level
-}
-
-// Example function to get the properties of all elevators in the current level
-pub fn get_current_level_elevators() -> Vec<ElevatorConfig> {
-    let current_level_index = get_current_level();
-    LEVELS[current_level_index].elevators.clone()
 }

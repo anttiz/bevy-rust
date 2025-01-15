@@ -1,6 +1,5 @@
 use crate::game::constants::*;
 use crate::game::level_config::LevelConfig;
-use crate::game::player_sprite::PlayerSprite;
 use crate::game::world::SkyBarEntities;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
@@ -49,20 +48,4 @@ fn setup_sky_bar(commands: &mut Commands, x_pos: f32) -> Entity {
         })
         .id();
     entity
-}
-
-// Collision detection logic
-fn check_horse_collision(
-    mut commands: Commands,
-    player_query: Query<(Entity, &Transform), With<PlayerSprite>>,
-    sky_bar_query: Query<(Entity, &Transform), With<SkyBar>>,
-) {
-    for (player_entity, player_transform) in player_query.iter() {
-        for (sky_bar_entity, sky_bar_transform) in sky_bar_query.iter() {
-            if player_transform.translation.y > sky_bar_transform.translation.y {
-                // Logic for when the horse touches the Sky Bar
-                commands.entity(player_entity).despawn(); // Example: despawn horse on collision
-            }
-        }
-    }
 }

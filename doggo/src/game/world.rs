@@ -1,6 +1,5 @@
-use super::constants::*;
 use super::level_config::LEVELS;
-use super::level_config::{get_current_level};
+use super::level_config::get_current_level;
 use crate::game::elevator::spawn_elevators;
 use crate::game::grass::spawn_grass;
 use crate::game::sky_bar::spawn_sky_bars;
@@ -10,7 +9,6 @@ use crate::game::sky::spawn_sky;
 use crate::game::laser::spawn_lasers;
 use bevy::ecs::system::Resource;
 use bevy::prelude::*;
-use bevy_rapier2d::prelude::*;
 #[derive(Resource)]
 pub struct StoneEntities(pub Vec<Entity>);
 #[derive(Resource)]
@@ -100,22 +98,4 @@ pub fn respawn_world(
     spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
     spawn_elevators(&mut commands, level_config, &mut elevator_entities);
     spawn_lasers(&mut commands, level_config, &mut laser_entities);
-}
-
-fn spawn_floor(commands: &mut Commands) {
-    commands
-        .spawn(SpriteBundle {
-            sprite: Sprite {
-                color: COLOR_FLOOR,
-                ..Default::default()
-            },
-            transform: Transform {
-                translation: Vec3::new(0.0, GRASS_CENTER_Y + 76.0, 0.0),
-                scale: Vec3::new(WINDOW_WIDTH, FLOOR_THICKNESS, 1.0),
-                ..Default::default()
-            },
-            ..Default::default()
-        })
-        .insert(RigidBody::Fixed)
-        .insert(Collider::cuboid(0.5, 0.5));
 }
