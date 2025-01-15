@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize}; // Add serde for JSON serialization/deseria
 use std::fs::File; // Import File for file handling
 use std::io::Read; // Import Read for reading file content
 
-const STARTING_LEVEL: usize = 8;
+const STARTING_LEVEL: usize = 6;
 
 use super::constants::GRASS_CENTER_Y;
 
@@ -134,21 +134,18 @@ pub fn get_level_configs() -> Vec<LevelConfig> {
             lasers: vec![], // Initialize as empty vector
         },
         LevelConfig {
-            stone_count: 1,
-            stones_moving: true,
-            stone_interval: 300.0,
-            stone_speed: STONE_SPEED,
-            sky_bars: vec![], // Initialize as empty vector
-            elevators: vec![], // Initialize as empty vector
-            blocks: vec![], // Initialize as empty vector
-            lasers: vec![], // Initialize as empty vector
-        },
-        LevelConfig {
             stone_count: 2,
             stones_moving: true,
             stone_interval: 300.0,
             stone_speed: STONE_SPEED,
-            sky_bars: vec![], // Initialize as empty vector
+            sky_bars: vec![
+                SkyBarConfig {
+                    start_x: -100.0,
+                },
+                SkyBarConfig {
+                    start_x: 100.0,
+                },
+            ],
             elevators: vec![], // Initialize as empty vector
             blocks: vec![], // Initialize as empty vector
             lasers: vec![], // Initialize as empty vector

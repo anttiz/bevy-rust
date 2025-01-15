@@ -127,7 +127,9 @@ pub fn move_stones(time: Res<Time>, mut stone_query: Query<(&Stone, &mut Transfo
 pub fn move_elevators(time: Res<Time>, mut query: Query<(&mut Transform, &mut Elevator)>) {
     let current_level = get_current_level();
     let level_config = &LEVELS[current_level];
-
+    if level_config.elevators.is_empty() {
+        return;
+    }
     for (mut transform, mut elevator) in query.iter_mut() {
         // Get the elevator configuration for the current elevator
         let elevator_config = &level_config.elevators[elevator.index]; // Assuming Elevator has an index field
