@@ -10,6 +10,7 @@ use game::player_sprite::trigger_animation;
 use game::player_sprite::execute_animations;
 use bevy::input::common_conditions::input_just_pressed;
 use game::setup;
+use game::cloud::animate_clouds;
 use game::world::{BlockEntities, LaserEntities, StoneEntities, SkyBarEntities, ElevatorEntities};
 use game::CurrentLevel;
 use systems::ground_detection::ground_detection;
@@ -46,6 +47,7 @@ fn main() {
             RapierDebugRenderPlugin::default(),
         ))
         .add_systems(Startup, setup)
+        .add_systems(Update, animate_clouds)
         .add_systems(Update, collision_detection_with_collider)
         .add_systems(Update, collision_detection)
         .add_systems(Update, movement)

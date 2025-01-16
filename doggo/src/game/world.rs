@@ -6,6 +6,7 @@ use crate::game::sky_bar::spawn_sky_bars;
 use crate::game::stone::spawn_stones;
 use crate::game::block::spawn_blocks;
 use crate::game::sky::spawn_sky;
+use crate::game::sun::spawn_sun;
 use crate::game::laser::spawn_lasers;
 use bevy::ecs::system::Resource;
 use bevy::prelude::*;
@@ -27,13 +28,14 @@ pub fn spawn_world(
     mut elevator_entities: ResMut<ElevatorEntities>,
     mut laser_entities: ResMut<LaserEntities>,
     mut block_entities: ResMut<BlockEntities>,
+    asset_server: Res<AssetServer>,
 ) {
     despawn_previous_entities(&mut commands, &mut stone_entities,
         &mut sky_bar_entities, &mut laser_entities, &mut elevator_entities, &mut block_entities);
 
     let current_level = get_current_level();
     let level_config = &LEVELS[current_level];
-    spawn_sky(&mut commands);
+    spawn_sky(&mut commands, &asset_server);
     spawn_stones(&mut commands, level_config, &mut stone_entities);
     spawn_grass(&mut commands);
     // spawn_floor(&mut commands);

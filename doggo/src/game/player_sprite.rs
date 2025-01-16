@@ -57,7 +57,7 @@ struct StandingSprite;
 
 pub fn spawn_player(
     commands: &mut Commands,
-    asset_server: Res<AssetServer>,
+    asset_server: &Res<AssetServer>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let texture = asset_server.load("textures/horses.png");
@@ -192,6 +192,7 @@ pub fn enter_next_level(
     elevator_entities: ResMut<ElevatorEntities>,
     laser_entities: ResMut<LaserEntities>,
     block_entities: ResMut<BlockEntities>,
+    asset_server: Res<AssetServer>,
     mut current_level: ResMut<CurrentLevel>,
 ) -> bool {
     if get_current_level() + 1 >= LEVELS.len() {
@@ -205,7 +206,7 @@ pub fn enter_next_level(
     sprite_controller.translation = Some(Vec2::ZERO);
     // Spawn new world
     spawn_world(commands, stone_entities, sky_bar_entities,
-        elevator_entities, laser_entities, block_entities);
+        elevator_entities, laser_entities, block_entities, asset_server);
     current_level.level = get_current_level();
     return true;
 }

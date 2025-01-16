@@ -32,6 +32,7 @@ pub fn movement(
     elevator_entities: ResMut<ElevatorEntities>,
     laser_entities: ResMut<LaserEntities>,
     block_entities: ResMut<BlockEntities>,
+    asset_server: Res<AssetServer>,
 ) {
     // Handle PlayerSprite movement
     for (mut sprite_controller, mut player_sprite, mut transform) in sprite_query.iter_mut() {
@@ -94,6 +95,7 @@ pub fn movement(
                 elevator_entities,
                 laser_entities,
                 block_entities,
+                asset_server,
                 current_level,
             );
             return;

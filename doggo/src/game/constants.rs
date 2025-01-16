@@ -17,6 +17,18 @@ pub const GRASS_CENTER_Y: f32 = WINDOW_BOTTOM_Y + GRASS_HEIGHT / 2.0;
 pub const SKY_HEIGHT: f32 = WINDOW_HEIGHT * SKY_HEIGHT_PERCENT / 100.0;
 pub const SKY_CENTER_Y: f32 = WINDOW_TOP_Y - SKY_HEIGHT / 2.0;
 
+// Sun constants
+pub const SUN_Y: f32 = WINDOW_HEIGHT / 2.0 - 100.0;
+pub const SUN_X: f32 = WINDOW_WIDTH / 2.0 - 100.0;
+pub const SUN_Z:f32 = SKY_Z;
+
+// Cloud constants
+pub const CLOUD_Y: f32 = WINDOW_HEIGHT / 2.0 - 160.0;
+pub const CLOUD_X: f32 = WINDOW_WIDTH / 2.0 - 160.0;
+pub const CLOUD_Z: f32 = SUN_Z + 0.5;
+pub const CLOUD_SPEED: f32 = 100.0;
+pub const CLOUD_Y_VARIANCE: f32 = 100.0;
+
 // Laser constants
 pub const LASER_WIDTH: f32 = 5.0;
 pub const LASER_HEIGHT_FROM_GROUND: f32 = WINDOW_BOTTOM_Y + GRASS_HEIGHT + 50.0;
