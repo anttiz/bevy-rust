@@ -49,12 +49,12 @@ pub const PLAYER_START_Y: f32 = 0.0; // Starting Y position of the player
 pub const PLAYER_WIDTH: f32 = 30.0; // Width of the player
 pub const PLAYER_SCALE: f32 = 2.0; // Scale of the player
 // Colors
-// black
-pub const COLOR_PLATFORM: Color = Color::srgba(0.0, 0.0, 0.0, 255.0);
-// blue
-pub const COLOR_SKY: Color = Color::srgba(0.0, 0.0, 255.0, 255.0);
-// lime green
-pub const COLOR_GRASS: Color = Color::srgba(0.0, 255.0, 0.0, 255.0);
+// Platform - Dark Brown
+pub const COLOR_PLATFORM: Color = Color::srgba(139.0 / 255.0, 69.0 / 255.0, 19.0 / 255.0, 255.0); // SaddleBrown
+// Sky - Light Blue
+pub const COLOR_SKY: Color = Color::srgba(135.0 / 255.0, 206.0 / 255.0, 235.0 / 255.0, 255.0); // LightSkyBlue
+// Grass - Bright Green
+pub const COLOR_GRASS: Color = Color::srgba(0.0, 255.0, 127.0 / 255.0, 255.0); // SpringGreen
 
 // grass constants
 pub const GRASS_Z: f32 = 0.0;
@@ -69,14 +69,15 @@ pub const SKY_BAR_WIDTH: f32 = 30.0;
 pub const SKY_BAR_START_Y: f32 = 0.0;
 pub const SKY_BAR_CUBOID_WIDTH: f32 = 1.0;
 pub const SKY_BAR_CUBOID_HEIGHT: f32 = 1.0;
-// light brown
-pub const SKY_BAR_COLOR: Color = Color::srgba(0.5, 0.4, 0.3, 255.0);
+// Sky Bar - Light Tan
+pub const SKY_BAR_COLOR: Color = Color::srgba(222.0 / 255.0, 184.0 / 255.0, 135.0 / 255.0, 255.0); // Burlywood
 pub const SKY_BAR_Z: f32 = 1.0;
 
 // Elevator constants
 pub const ELEVATOR_HEIGHT: f32 = 30.0;
 pub const ELEVATOR_WIDTH: f32 = 4.0 * ELEVATOR_HEIGHT;
-pub const ELEVATOR_COLOR: Color = Color::srgba(0.5, 0.4, 0.3, 255.0);
+// Elevator - Light Brown
+pub const ELEVATOR_COLOR: Color = Color::srgba(210.0 / 255.0, 180.0 / 255.0, 140.0 / 255.0, 255.0); // Tan
 pub const ELEVATOR_Z: f32 = 1.0;
 
 // Spritesheet constants
@@ -87,11 +88,13 @@ pub const SPRITESHEET_ROWS: u32 = 8;
 
 // block constants
 pub const BLOCK_Z: f32 = 1.0;
-pub const BLOCK_COLOR: Color = Color::srgba(0.5, 0.5, 0.5, 1.0);
+// Block - Dark Gray
+pub const BLOCK_COLOR: Color = Color::srgba(169.0 / 255.0, 169.0 / 255.0, 169.0 / 255.0, 255.0); // DarkGray
 
 // laser constants
 pub const LASER_Z: f32 = 1.0;
-pub const LASER_COLOR: Color = Color::srgba(1.0, 0.0, 1.0, 1.0);
+// Laser - Bright Red
+pub const LASER_COLOR: Color = Color::srgba(255.0, 0.0, 0.0, 255.0); // Red
 
 // sky constants
 pub const SKY_Z: f32 = 0.0;
