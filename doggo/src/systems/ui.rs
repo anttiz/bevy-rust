@@ -1,12 +1,12 @@
 use bevy::prelude::*;
-use crate::game::level_config::get_current_level;
+use crate::game::level_config::{get_current_level, get_attempt_count};
 
 pub fn setup_level_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn(TextBundle {
         text: Text {
             sections: vec![
                 TextSection {
-                    value: format!("Level: {}", get_current_level()),
+                    value: format!("Level: {} | Attempts: {}", get_current_level(), get_attempt_count()),
                     style: TextStyle {
                         font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                         font_size: 40.0,
@@ -24,6 +24,6 @@ pub fn setup_level_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
 
 pub fn update_level_ui(mut query: Query<&mut Text, With<Name>>) {
     for mut text in query.iter_mut() {
-        text.sections[0].value = format!("Level: {}", get_current_level());
+        text.sections[0].value = format!("Level: {} | Attempts: {}", get_current_level(), get_attempt_count());
     }
 }

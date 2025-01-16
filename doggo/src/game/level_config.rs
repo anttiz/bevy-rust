@@ -6,7 +6,7 @@ use std::fs::File; // Import File for file handling
 use std::io::Read; // Import Read for reading file content
 
 const STARTING_LEVEL: usize = 0;
-
+const STARTING_ATTEMPT_COUNT: usize = 0;
 use super::constants::GRASS_CENTER_Y;
 
 // Define a struct for Elevator properties
@@ -250,6 +250,8 @@ lazy_static! {
 
     // Change LEVELS to a static reference
     pub static ref LEVELS: Vec<LevelConfig> = get_level_configs(); // Load from either JSON or hardcoded values
+
+    pub static ref ATTEMPT_COUNT: Mutex<usize> = Mutex::new(STARTING_ATTEMPT_COUNT); // Initialize to level 0
 }
 
 // Example function to set the current level
@@ -259,10 +261,22 @@ pub fn set_current_level(level_index: usize) {
         return;
     }
     *current_level = level_index; // Set the current level
+    let mut attempt_count = ATTEMPT_COUNT.lock().unwrap(); // Access ATTEMPT_COUNT directly
+    *attempt_count = STARTING_ATTEMPT_COUNT; // Reset the attempt count
 }
 
 // Example function to get the current level
 pub fn get_current_level() -> usize {
     let current_level = CURRENT_LEVEL.lock().unwrap(); // Access CURRENT_LEVEL directly
     *current_level // Return the current level
+}
+
+pub fn get_attempt_count() -> usize {
+    let attempt_count = ATTEMPT_COUNT.lock().unwrap(); // Access ATTEMPT_COUNT directly
+    *attempt_count // Return the attempt count
+}
+
+pub fn increase_attempt_count() {
+    let mut attempt_count = ATTEMPT_COUNT.lock().unwrap(); // Access ATTEMPT_COUNT directly
+    *attempt_count += 1; // Increment the attempt count
 }

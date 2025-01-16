@@ -7,7 +7,7 @@ use crate::game::{
         PLAYER_START_Y, PLAYER_VELOCITY_X, RIGHT_BOUNDARY, STONE_WIDTH,
     },
     elevator::Elevator,
-    level_config::{get_current_level, LEVELS},
+    level_config::{get_current_level, LEVELS, increase_attempt_count},
     player_sprite::{enter_next_level, PlayerSprite},
     stone::Stone,
     world::{
@@ -48,6 +48,7 @@ pub fn movement(
                 block_entities,
             );
             player_sprite.health = 100;
+            increase_attempt_count();
             return;
         }
         if !player_sprite.on_ground {
