@@ -3,6 +3,7 @@ use crate::game::level_config::LevelConfig;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
+
 use super::world::BlockEntities;
 
 #[derive(Component)]
@@ -23,10 +24,10 @@ pub fn spawn_block(commands: &mut Commands, position: Vec3, width: f32, height: 
             ..Default::default()
         })
         .insert(RigidBody::Fixed)
-        .insert(Collider::cuboid(0.5, 0.5)) // Set collider
+        .insert(Collider::cuboid(0.5, 0.5))
         .insert(Block)
         .id();
-    return entity;
+    entity
 }
 
 pub fn spawn_blocks(commands: &mut Commands, level_config: &LevelConfig, block_entities: &mut ResMut<BlockEntities>) {

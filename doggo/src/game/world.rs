@@ -22,7 +22,7 @@ pub struct LaserEntities(pub Vec<Entity>);
 pub struct BlockEntities(pub Vec<Entity>);
 
 pub fn spawn_world(
-    mut commands: Commands,
+    commands: &mut Commands,
     mut stone_entities: ResMut<StoneEntities>,
     mut sky_bar_entities: ResMut<SkyBarEntities>,
     mut elevator_entities: ResMut<ElevatorEntities>,
@@ -30,19 +30,18 @@ pub fn spawn_world(
     mut block_entities: ResMut<BlockEntities>,
     asset_server: Res<AssetServer>,
 ) {
-    despawn_previous_entities(&mut commands, &mut stone_entities,
+    despawn_previous_entities(commands, &mut stone_entities,
         &mut sky_bar_entities, &mut laser_entities, &mut elevator_entities, &mut block_entities);
 
     let current_level = get_current_level();
     let level_config = &LEVELS[current_level];
-    spawn_sky(&mut commands, &asset_server);
-    spawn_stones(&mut commands, level_config, &mut stone_entities);
-    spawn_grass(&mut commands);
-    // spawn_floor(&mut commands);
-    spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
-    spawn_blocks(&mut commands, level_config, &mut block_entities);
-    spawn_elevators(&mut commands, level_config, &mut elevator_entities);
-    spawn_lasers(&mut commands, level_config, &mut laser_entities);
+    spawn_sky(commands, &asset_server);
+    spawn_stones(commands, level_config, &mut stone_entities);
+    spawn_grass(commands);
+    spawn_sky_bars(commands, level_config, &mut sky_bar_entities);
+    spawn_blocks(commands, level_config, &mut block_entities);
+    spawn_elevators(commands, level_config, &mut elevator_entities);
+    spawn_lasers(commands, level_config, &mut laser_entities);
 }
 
 pub fn despawn_previous_entities(
@@ -85,7 +84,7 @@ pub fn despawn_previous_entities(
 }
 
 pub fn respawn_world(
-    mut commands: Commands,
+    commands: &mut Commands,
     mut stone_entities: ResMut<StoneEntities>,
     mut sky_bar_entities: ResMut<SkyBarEntities>,
     mut elevator_entities: ResMut<ElevatorEntities>,
@@ -94,10 +93,10 @@ pub fn respawn_world(
 ) {
     let current_level = get_current_level();
     let level_config = &LEVELS[current_level];
-    despawn_previous_entities(&mut commands, &mut stone_entities,
+    despawn_previous_entities(commands, &mut stone_entities,
         &mut sky_bar_entities, &mut laser_entities, &mut elevator_entities, &mut block_entities);
-    spawn_stones(&mut commands, level_config, &mut stone_entities);
-    spawn_sky_bars(&mut commands, level_config, &mut sky_bar_entities);
-    spawn_elevators(&mut commands, level_config, &mut elevator_entities);
-    spawn_lasers(&mut commands, level_config, &mut laser_entities);
+    spawn_stones(commands, level_config, &mut stone_entities);
+    spawn_sky_bars(commands, level_config, &mut sky_bar_entities);
+    spawn_elevators(commands, level_config, &mut elevator_entities);
+    spawn_lasers(commands, level_config, &mut laser_entities);
 }

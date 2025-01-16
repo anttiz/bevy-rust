@@ -21,6 +21,7 @@ use systems::movement::move_stones;
 use systems::ui::{setup_level_ui, update_level_ui};
 use systems::movement::move_elevators;
 use game::laser::update_laser_visibility;
+use systems::audio::play_background_music;
 fn main() {
     App::new()
         .insert_resource(StoneEntities(Vec::new()))
@@ -65,5 +66,6 @@ fn main() {
         .add_systems(Update, update_level_ui)
         .add_systems(Update, move_elevators)
         .add_systems(Update, update_laser_visibility)
+        .add_systems(PostStartup, play_background_music)
         .run();
 }

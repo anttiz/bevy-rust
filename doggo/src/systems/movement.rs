@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-
+use crate::systems::audio::play_mistake_sound;
 use crate::game::{
     constants::{
         GRAVITY_REDUCED, JUMP_VELOCITY, LEFT_BOUNDARY, PLAYER_START_X,
@@ -16,9 +16,10 @@ use crate::game::{
     },
     CurrentLevel,
 };
+use super::audio::MistakeSound;
 
 pub fn movement(
-    commands: Commands,
+    mut commands: Commands,
     input: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
     mut sprite_query: Query<(
@@ -33,6 +34,8 @@ pub fn movement(
     laser_entities: ResMut<LaserEntities>,
     block_entities: ResMut<BlockEntities>,
     asset_server: Res<AssetServer>,
+    mistake_sound: Res<MistakeSound>,
+    audio_source: Res<Assets<AudioSource>>,
 ) {
     // Handle PlayerSprite movement
     for (mut sprite_controller, mut player_sprite, mut transform) in sprite_query.iter_mut() {
@@ -41,7 +44,7 @@ pub fn movement(
         if player_sprite.health == 0 {
             restart_level(&mut transform);
             respawn_world(
-                commands,
+                &mut commands,
                 stone_entities,
                 sky_bar_entities,
                 elevator_entities,
@@ -50,6 +53,7 @@ pub fn movement(
             );
             player_sprite.health = 100;
             increase_attempt_count();
+            play_mistake_sound(mistake_sound, audio_source, &mut commands);
             return;
         }
         if !player_sprite.on_ground {
@@ -87,7 +91,7 @@ pub fn movement(
         if new_position.x > RIGHT_BOUNDARY {
             // enter next level
             enter_next_level(
-                commands,
+                &mut commands,
                 sprite_controller,
                 transform,
                 stone_entities,

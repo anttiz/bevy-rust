@@ -1,10 +1,12 @@
 use super::level_config::{get_current_level, set_current_level, LEVELS};
+use super::world::{
+    spawn_world, BlockEntities, ElevatorEntities, LaserEntities, SkyBarEntities, StoneEntities,
+};
 use super::CurrentLevel;
 use bevy::input::ButtonInput;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use std::time::Duration;
-use super::world::{spawn_world, BlockEntities, ElevatorEntities, LaserEntities, SkyBarEntities, StoneEntities};
 
 use super::constants::{
     ANIMATION_FPS, ANIMATION_FRAMES, PLAYER_SCALE, PLAYER_START_X, PLAYER_START_Y,
@@ -32,16 +34,14 @@ impl Default for PlayerSprite {
 #[derive(Component)]
 pub struct AnimationConfig {
     pub first_sprite_index: usize,
-    // pub last_sprite_index: usize,
     pub fps: u8,
     pub frame_timer: Timer,
 }
 
 impl AnimationConfig {
-    pub fn new(first: usize, last: usize, fps: u8) -> Self {
+    pub fn new(first: usize, fps: u8) -> Self {
         Self {
             first_sprite_index: first,
-            //last_sprite_index: last,
             fps,
             frame_timer: Self::timer_from_fps(fps),
         }
@@ -70,11 +70,8 @@ pub fn spawn_player(
     );
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
-    let animation_config_standing = AnimationConfig::new(
-        STANDING_SPRITE_FIRST_INDEX,
-        STANDING_SPRITE_FIRST_INDEX + ANIMATION_FRAMES - 1,
-        ANIMATION_FPS,
-    );
+    let animation_config_standing =
+        AnimationConfig::new(STANDING_SPRITE_FIRST_INDEX, ANIMATION_FPS);
 
     commands
         .spawn((
@@ -184,7 +181,7 @@ pub fn execute_animations(
 }
 
 pub fn enter_next_level(
-    commands: Commands,
+    commands: &mut Commands,
     mut sprite_controller: Mut<'_, KinematicCharacterController>,
     mut transform: Mut<'_, Transform>,
     stone_entities: ResMut<StoneEntities>,
@@ -199,14 +196,17 @@ pub fn enter_next_level(
         panic!("No more levels");
     }
     set_current_level(get_current_level() + 1);
-    // println!("Next Level: {}", get_current_level());
-    // Set absolute position using Transform
     transform.translation = Vec3::new(PLAYER_START_X, PLAYER_START_Y, 1.0);
-    // Reset the movement delta
     sprite_controller.translation = Some(Vec2::ZERO);
-    // Spawn new world
-    spawn_world(commands, stone_entities, sky_bar_entities,
-        elevator_entities, laser_entities, block_entities, asset_server);
+    spawn_world(
+        commands,
+        stone_entities,
+        sky_bar_entities,
+        elevator_entities,
+        laser_entities,
+        block_entities,
+        asset_server,
+    );
     current_level.level = get_current_level();
-    return true;
+    true
 }

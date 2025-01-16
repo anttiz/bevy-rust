@@ -1,5 +1,4 @@
-use crate::game::{player_sprite::PlayerSprite, deadly_item::DeadlyItem};
-use crate::systems::movement::restart_level;
+use crate::{game::{deadly_item::DeadlyItem, player_sprite::PlayerSprite}, systems::movement::restart_level};
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::{Collider, CollisionEvent};
 use bevy::ecs::component::Component;
@@ -11,7 +10,6 @@ pub fn collision_detection(
     mut sprite_query: Query<(&mut PlayerSprite, &mut Transform)>,
     deadly_item_query: Query<(&DeadlyItem, &Transform), Without<PlayerSprite>>,
 ) {
-    // Handle PlayerSprite ground detection
     for (mut player_sprite, mut transform) in sprite_query.iter_mut() {
         check_deadly_item_collision(&mut transform, &deadly_item_query, &mut player_sprite);
     }

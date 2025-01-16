@@ -14,10 +14,24 @@ pub mod sun;
 pub mod laser;
 use bevy::prelude::*;
 use world::{BlockEntities, ElevatorEntities, LaserEntities, SkyBarEntities, StoneEntities};
-
-
-
+use crate::systems::audio::insert_audio_resource;
 use self::{player_sprite::spawn_player as spawn_player_sprite, world::spawn_world};
+
+
+#[derive(Resource)]
+pub struct CurrentLevel {
+    pub level: usize,
+}
+
+impl Default for CurrentLevel {
+    fn default() -> Self {
+        CurrentLevel { level: 0 }
+    }
+}
+
+
+#[derive(Resource)]
+struct DyingSound(Handle<AudioSource>);
 
 // for meshes and materials
 pub fn setup(
@@ -33,17 +47,8 @@ pub fn setup(
     block_entities: ResMut<BlockEntities>,
 ) {
     commands.spawn(Camera2dBundle::default());
+
+    insert_audio_resource(&mut commands, &asset_server);
     spawn_player_sprite(&mut commands, &asset_server, texture_atlas_layouts);
-    spawn_world(commands, stone_entities, sky_bar_entities, elevator_entities, laser_entities, block_entities, asset_server);
-}
-
-#[derive(Resource)]
-pub struct CurrentLevel {
-    pub level: usize,
-}
-
-impl Default for CurrentLevel {
-    fn default() -> Self {
-        CurrentLevel { level: 0 }
-    }
+    spawn_world(&mut commands, stone_entities, sky_bar_entities, elevator_entities, laser_entities, block_entities, asset_server);
 }
